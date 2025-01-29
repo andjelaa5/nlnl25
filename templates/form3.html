@@ -32,17 +32,24 @@
             </tbody>
         </table>
         <script>
-            // Funkcija za učitavanje podataka sa servera i smeštanje u JS listu
-          window.onload = function() {
-    fetch('/form3')   // Ova ruta sada vraća JSON
+         window.onload = function() {
+    // Učitaj HTML formu na /form3
+    fetch('/form3')   // Ova ruta sada vraća HTML formu
         .then(response => {
             if (!response.ok) {
-                throw new Error('Greška pri učitavanju podataka');
+                throw new Error('Greška pri učitavanju stranice');
             }
-            return response.json();  // Pretvori JSON odgovor u objekat
+            return response.text();  // Učitavanje HTML sadržaja
         })
+        .then(html => {
+            document.getElementById('formContainer').innerHTML = html; // Ubaci HTML u div
+        })
+        .catch(error => console.error("Greška pri učitavanju forme:", error));
+
+    // Učitaj podatke iz CSV fajla preko JSON rute
+    fetch('/get_form3_data')   // Ova ruta sada vraća JSON podatke
+        .then(response => response.json())  // Pretvori JSON odgovor u objekat
         .then(data => {
-            console.log("Data received:", data);  // Loguj podatke da vidiš šta dolazi
             const userList = data.lista;  // 'lista' je ključ koji sadrži podatke
             const userListElement = document.getElementById('userList');
 

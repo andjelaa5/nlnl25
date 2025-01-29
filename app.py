@@ -66,7 +66,7 @@ def save_to_csv():
     hobi = data['hobi']
     pesma = data['pesma']
     zauzet = data['zauzet']
-    par = data['zauzet']  # Pretpostavljam da "zauzet" znači da je par
+    par = data['par']
 
     # Kreiraj korisnika u bazi
     user = User(
@@ -78,7 +78,9 @@ def save_to_csv():
     db.session.add(user)
     db.session.commit()
 
-    return jsonify({"message": "Podaci su uspešno sačuvani!"})
+    # Vraćanje podataka sa userId
+    return jsonify({"message": "Podaci su uspešno sačuvani!", "userId": user.id})
+
 
 # Ruta za prikazivanje svih podataka u bazi (JSON format)
 @app.route('/get_form3_data')
@@ -95,17 +97,6 @@ def form3_data():
         })
 
     return jsonify({"lista": data})
-
-# Ruta za dobijanje korisničkog ID-a
-@app.route('/get_user_id', methods=['GET'])
-def get_user_id():
-    # Pretpostavljamo da je korisnik već prijavljen ili registrovan
-    # Ovde uzimamo poslednjeg korisnika (možeš implementirati logiku da se uzme konkretni korisnik)
-    user = User.query.order_by(User.id.desc()).first()  # Uzima poslednjeg korisnika
-    if user:
-        return jsonify({"userId": user.id})
-    else:
-        return jsonify({"userId": None})  # Ako nema korisnika
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

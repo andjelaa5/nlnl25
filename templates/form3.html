@@ -33,7 +33,7 @@
         </table>
       <script>
   
-    window.onload = function() {
+   window.onload = function() {
     // Učitaj podatke iz baze putem JSON rute
     fetch('/get_form3_data')  
         .then(response => {
@@ -65,17 +65,17 @@
                             br = 0;
                             // Uporedite različite parametre da biste stvorili parove
                             if (parseInt(item[i].zauzet) === 0 && parseInt(item[j].zauzet) === 0 &&
-                                JSON.stringify(item[i].zeljenipol) === JSON.stringify(item[j].pol) &&
-                                JSON.stringify(item[i].pol) === JSON.stringify(item[j].zeljenipol)) {
+                                item[i].zeljenipol === item[j].pol &&
+                                item[i].pol === item[j].zeljenipol) {
 
                                 // Prolazak kroz sve parametre za slaganje parova
-                                if (JSON.stringify(item[i].tiplicnosti) === JSON.stringify(item[j].tiplicnosti)) br++;
-                                if (JSON.stringify(item[i].roleModel) === JSON.stringify(item[j].roleModel)) br++;
-                                if (JSON.stringify(item[i].zivotnicilj) === JSON.stringify(item[j].zivotnicilj)) br++;
-                                if (JSON.stringify(item[i].zanr) === JSON.stringify(item[j].zanr)) br++;
-                                if (JSON.stringify(item[i].pice) === JSON.stringify(item[j].pice)) br++;
-                                if (JSON.stringify(item[i].hobi) === JSON.stringify(item[j].hobi)) br++;
-                                if (JSON.stringify(item[i].pesma) === JSON.stringify(item[j].pesma)) br++;
+                                if (item[i].tiplicnosti === item[j].tiplicnosti) br++;
+                                if (item[i].roleModel === item[j].roleModel) br++;
+                                if (item[i].zivotnicilj === item[j].zivotnicilj) br++;
+                                if (item[i].zanr === item[j].zanr) br++;
+                                if (item[i].pice === item[j].pice) br++;
+                                if (item[i].hobi === item[j].hobi) br++;
+                                if (item[i].pesma === item[j].pesma) br++;
 
                                 // Ako par zadovoljava kriterijum, označi ih kao zauzete
                                 if (br === k) {
@@ -121,7 +121,6 @@
             console.error("Greška pri učitavanju podataka:", error);  
         });
 }
-
 
         </script>
 

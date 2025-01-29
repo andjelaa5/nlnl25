@@ -29,35 +29,38 @@
     </footer>
 
    <script>
+    // Kada se stranica učita
     window.onload = function() {
-        // Proveravamo da li je već sačuvan korisnički ID u localStorage
+        // Prvo pokušaj da preuzmeš korisnički ID iz localStorage
         let userNumber = localStorage.getItem('userNumber');
-        
-        // Ako korisnički ID nije u localStorage, pozivamo server da ga dobavimo
+
+        // Ako korisnički ID nije pronađen u localStorage, pozovi backend da bi dobio ID
         if (!userNumber) {
-            fetch('/get_user_id')
-                .then(response => response.json())
+            fetch('/get_user_id')  // Pozivanje rute koja vraća ID korisnika
+                .then(response => response.json())  // Dobijanje JSON odgovora
                 .then(data => {
-                    if (data.userId) {
-                        // Spremamo userId u localStorage kako bi se sačuvao
+                    if (data.userId !== null) {
+                        // Ako je korisnički ID pronađen, sačuvaj ga u localStorage
                         localStorage.setItem('userNumber', data.userId);
-                        userNumber = data.userId;  // Dodeljujemo userId iz odgovora
+                        userNumber = data.userId;  // Prikazivanje korisničkog ID-a na stranici
                     } else {
-                        userNumber = "N/A";  // Ako nije pronađen korisnik
+                        // Ako nije pronađen korisnik
+                        userNumber = "N/A";
                     }
 
-                    // Prikazujemo korisnički ID na stranici
+                    // Prikazivanje korisničkog ID-a na stranici
                     document.getElementById('userNumber').textContent = userNumber;
                 })
                 .catch(error => {
-                    console.error('Greška prilikom učitavanja korisničkog ID-a:', error);
-                    document.getElementById('userNumber').textContent = "Greška prilikom učitavanja ID-a";
+                    console.error("Greška pri preuzimanju korisničkog ID-a:", error);
+                    document.getElementById('userNumber').textContent = "Greška pri učitavanju";
                 });
         } else {
-            // Ako korisnički ID postoji u localStorage, odmah ga prikazujemo
+            // Ako je korisnički ID već u localStorage, prikaži ga odmah
             document.getElementById('userNumber').textContent = userNumber;
         }
     }
 </script>
+
 </body>
 </html>

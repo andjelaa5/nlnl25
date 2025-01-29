@@ -25,8 +25,8 @@ class User(db.Model):
     pice = db.Column(db.String(100))
     hobi = db.Column(db.String(100))
     pesma = db.Column(db.String(100))
-    zauzet = db.Column(db.Boolean)
-    par = db.Column(db.Integer)  # Povezivanje sa parom
+    zauzet = db.Column(db.Boolean, default=False)
+    par = db.Column(db.Integer, nullable=True)  # Povezivanje sa parom
 
 # Koristimo `app.app_context()` da obezbedimo da se pozivi baze izvršavaju u kontekstu aplikacije
 with app.app_context():
@@ -81,19 +81,49 @@ def save_to_csv():
     # Vraćanje podataka sa userId
     return jsonify({"message": "Podaci su uspešno sačuvani!", "userId": user.id})
 
-
 # Ruta za prikazivanje svih podataka u bazi (JSON format)
 @app.route('/get_form3_data')
 def form3_data():
     users = User.query.all()
     data = []
+    
+    # Pronađi sve korisnike koji nisu zauzeti
+    free_users = [user for user in users if not user.zauzet]
+    
+    # Pokušaj uparivanja korisnika
+    for i in range(len(free_users)):
+        for j in range(i + 1, len(free_users)):
+            user1 = free_users[i]
+            user2 = free_users[j]
+            
+            # Ako se korisnici poklapaju u željenom polu i drugim kriterijumima, napravite par
+            if (user1.zeljenipol == user2.pol and user1.pol == user2.zeljenipol):
+                # Upareni korisnici
+                user1.zauzet = True
+                user2.zauzet = True
+                user1.par = user2.id
+                user2.par = user1.id
+                
+                db.session.commit()  # Ažuriraj bazu
+                break  # Završimo nakon što smo napravili par
+
+    # Vraćanje podataka sa svim korisnicima
     for user in users:
         data.append({
-            "id": user.id, "ime": user.ime, "prezime": user.prezime,
-            "pol": user.pol, "zeljenipol": user.zeljenipol, "tiplicnosti": user.tiplicnosti,
-            "roleModel": user.roleModel, "zivotnicilj": user.zivotnicilj,
-            "zanr": user.zanr, "pice": user.pice, "hobi": user.hobi,
-            "pesma": user.pesma, "zauzet": user.zauzet, "par": user.par
+            "id": user.id,
+            "ime": user.ime,
+            "prezime": user.prezime,
+            "pol": user.pol,
+            "zeljenipol": user.zeljenipol,
+            "tiplicnosti": user.tiplicnosti,
+            "roleModel": user.roleModel,
+            "zivotnicilj": user.zivotnicilj,
+            "zanr": user.zanr,
+            "pice": user.pice,
+            "hobi": user.hobi,
+            "pesma": user.pesma,
+            "zauzet": user.zauzet,
+            "par": user.par
         })
 
     return jsonify({"lista": data})

@@ -31,63 +31,103 @@
                 <!-- Podaci će biti dodani ovde pomoću JavaScript-a -->
             </tbody>
         </table>
-      <script>
-  <script>
-  window.onload = function() {
-    // Učitaj podatke iz baze putem JSON rute
-    fetch('/get_form3_data')  // Ruta koja vraća JSON podatke
+        <script>
+         window.onload = function() {
+    // Učitaj HTML formu na /form3
+    fetch('/form3')   // Ova ruta sada vraća HTML formu
         .then(response => {
-            console.log("Response: ", response);  // Logovanje odgovora
             if (!response.ok) {
-                throw new Error("Ne mogu da dohvatim podatke");
+                throw new Error('Greška pri učitavanju stranice');
             }
-            return response.json();  // Pretvori JSON odgovor u objekat
+            return response.text();  // Učitavanje HTML sadržaja
         })
+        .then(html => {
+            document.getElementById('formContainer').innerHTML = html; // Ubaci HTML u div
+        })
+        .catch(error => console.error("Greška pri učitavanju forme:", error));
+
+    // Učitaj podatke iz CSV fajla preko JSON rute
+    fetch('/form3')   // Ova ruta sada vraća JSON podatke
+        .then(response => response.json())  // Pretvori JSON odgovor u objekat
         .then(data => {
-            console.log("Data: ", data);  // Logovanje podataka
             const userList = data.lista;  // 'lista' je ključ koji sadrži podatke
             const userListElement = document.getElementById('userList');
 
-            // Provera da li ima korisnika
             if (userList && userList.length > 0) {
-                // Prikazivanje podataka u tabeli
-                let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
-                tableBody.innerHTML = '';  // Očisti prethodne redove
-
-                userList.forEach(user => {
-                    // Ako je korisnik zauzet, prikaži ga u tabeli
-                    if (user.zauzet) {
-                        // Kreiraj novi red za tabelu
-                        let row = document.createElement("tr");
-
-                        // Kreiraj ćeliju za ID korisnika
-                        let cell1 = document.createElement("td");
-                        cell1.textContent = user.id;
-                        row.appendChild(cell1);
-
-                        // Kreiraj ćeliju za ID para korisnika
-                        let cell2 = document.createElement("td");
-                        cell2.textContent = user.par || 'Nema para';
-                        row.appendChild(cell2);
-
-                        // Dodajte red u telo tabele
-                        tableBody.appendChild(row);
-                    }
+                let br = 0;
+                const item = userList.map(innerArray => {
+                    return innerArray.map(str => str.split(",")); // Splitujemo string po zarezu
                 });
+
+                for (let k = 7; k >= 0; k--) {
+                    for (let i = 0; i < item.length; i++) {
+                        if (parseInt(item[i][13]) == 1)
+                            continue;
+                        for (let j = i + 1; j < item.length; j++) {
+                            if (parseInt(item[j][13]) == 1)
+                                continue;
+                            br = 0;
+                            if (parseInt(item[i][13]) == 0 && parseInt(item[j][13]) == 0 && JSON.stringify(item[i][4]) == JSON.stringify(item[j][3]) && JSON.stringify(item[i][3]) == JSON.stringify(item[j][4])) {
+                                if (JSON.stringify([i][5]) == JSON.stringify([j][5]))
+                                    br++;
+                                if (JSON.stringify([i][6]) == JSON.stringify([j][6]))
+                                    br++;
+                                if (JSON.stringify([i][7]) == JSON.stringify([j][7]))
+                                    br++;
+                                if (JSON.stringify([i][8]) == JSON.stringify([j][8]))
+                                    br++;
+                                if (JSON.stringify([i][9]) == JSON.stringify([j][9]))
+                                    br++;
+                                if (JSON.stringify([i][10]) == JSON.stringify([j][10]))
+                                    br++;
+                                if (JSON.stringify([i][11]) == JSON.stringify([j][11]))
+                                    br++;
+                                if (br == k) {
+                                    item[i][13] = item[j][13] = 1;
+                                    item[i][14] = item[j][0];
+                                    item[j][14] = item[i][0];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+                for (let i = 0; i < item.length; i++) {
+                    // Ako je item[i][13] 0, preskočite taj red
+                    if (item[i][13] == 0) continue;
+
+                    // Kreiraj novi red za tabelu
+                    let row = document.createElement("tr");
+
+                    // Kreiraj ćeliju za item[i][0] (prvi element)
+                    let cell1 = document.createElement("td");
+                    cell1.textContent = item[i][0];
+                    row.appendChild(cell1);
+
+                    // Kreiraj ćeliju za item[i][14] (petnaesti element)
+                    let cell2 = document.createElement("td");
+                    cell2.textContent = item[i][14];
+                    row.appendChild(cell2);
+
+                    // Dodajte red u telo tabele
+                    tableBody.appendChild(row);
+
+                    // Postavite item[i][13] na 0 (kao u originalnom kodu)
+                    item[i][13] = 0;
+                    item[parseInt(item[i][14]) - 1][13] = 0;
+                }
             } else {
                 const noDataMessage = document.createElement('li');
                 noDataMessage.textContent = 'Nema podataka za prikazivanje.';
                 userListElement.appendChild(noDataMessage);
             }
         })
-        .catch(error => {
-            console.error("Greška pri učitavanju podataka:", error);  // Logovanje greške
-        });
-  }
-</script>
+        .catch(error => console.error("Greška pri učitavanju podataka:", error));
+}
 
         </script>
-
     </main>
 
     <footer >

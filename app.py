@@ -6,8 +6,8 @@ import os
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS
 
-# Putanja do CSV fajla (proveri da li je fajl na pravoj lokaciji)
-csv_file = 'podaci.csv'
+# Putanja do CSV fajla (fajl je sada u folderu static/csv)
+csv_file = os.path.join('static', 'csv', 'podaci.csv')
 
 # Funkcija za čitanje poslednjeg broja korisnika iz CSV fajla
 def get_last_user_number():
@@ -26,6 +26,11 @@ def get_last_user_number():
 
 # Funkcija za upisivanje podataka u CSV fajl
 def write_to_csv(data):
+    # Ako folder ne postoji, kreiraj ga
+    if not os.path.exists(os.path.join('static', 'csv')):
+        os.makedirs(os.path.join('static', 'csv'))
+
+    # Upisivanje podataka u CSV fajl
     with open(csv_file, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(data)  # Dodaj podatke u fajl
@@ -33,7 +38,15 @@ def write_to_csv(data):
 # Ruta za serviranje HTML forme
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/form')
+def form():
     return render_template('form.html')
+
+@app.route('/form2')
+def form2():
+    return render_template('form2.html')
 
 # Ruta za primanje podataka sa forme i upisivanje u CSV
 @app.route('/save_to_csv', methods=['POST'])
@@ -55,10 +68,11 @@ def save_to_csv():
     pice = data['pice']
     hobi = data['hobi']
     pesma = data['pesma']
-    zauzet= data['zauzet']
-    par= data['zauzet']
+    zauzet = data['zauzet']
+    par = data['zauzet']
+
     # Pripremi podatke koji se upisuju u CSV (uključujući broj korisnika)
-    user_data = [user_counter, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma,zauzet,par]
+    user_data = [user_counter, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
 
     # Upisivanje podataka u CSV fajl
     write_to_csv(user_data)
@@ -82,9 +96,9 @@ def form3():
     except FileNotFoundError:
         pass  # Ako fajl nije pronađen, vraćamo praznu listu
 
-    # Vraćamo podatke u JSON formatu
-    return jsonify({'lista': data})
+    # Vraćanje stranice sa podacima (preko render_template)
+    return render_template('form3.html', lista=data)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)
-

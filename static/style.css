@@ -277,55 +277,67 @@ footer {
   
 
 
-
 @media screen and (max-width: 768px) {
     header {
         height: 10vh;
     }
 
-        header h1 {
-            font-size: 1.1em;
-        }
+    header h1 {
+        font-size: 1.1em;
+    }
+
+    .b {
+        background-color: white;
+        width: 100%;
+        height: auto; /* Dinamički se prilagođava sadržaju */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px; /* Razmak između header-a i .b */
+        margin-bottom: 20px; /* Smanjen razmak na dnu */
+        padding: 0 10px; /* Dodajemo padding za manji razmak sa strane */
+    }
 
     .button {
         font-size: 1.3em;
         padding: 12px 25px;
-        width: 90%; 
+        width: 90%;
     }
 
     .myLabelStyle {
         margin-top: 20px;
         font-size: 1.2em;
-        margin-left: 20px; 
+        margin-left: 20px;
     }
 
     .myDropDownStyle {
-        width: 90%; 
-        margin-left: 0; 
-        font-size: 1em; 
+        width: 90%;
+        margin-left: 0;
+        font-size: 1em;
     }
 
     .styled-textbox {
-        max-width: 90%; 
+        max-width: 90%;
         margin-left: 0;
     }
 
     .gumb {
-        width: 90%; 
-        margin-left: 0; 
+        width: 90%;
+        margin-left: 0;
         font-size: 1.3em;
     }
 
     #Table2 {
-        width: 100%; 
-        font-size: 1.1em; 
+        width: 100%;
+        font-size: 1.1em;
     }
 
-        #Table2 td,
-        #Table2 th {
-            padding: 8px 12px; 
-            font-size: 1.2em; 
-        }
+    #Table2 td,
+    #Table2 th {
+        padding: 8px 12px;
+        font-size: 1.2em;
+    }
 
     footer {
         height: auto;
@@ -348,37 +360,37 @@ footer {
     }
 
     h4, h5 {
-        font-size: 3em; 
+        font-size: 3em;
     }
 
     .button {
-        font-size: 1.2em; 
+        font-size: 1.2em;
         padding: 10px 20px;
     }
 
     .myLabelStyle {
-        font-size: 1.1em; 
+        font-size: 1.1em;
         margin-left: 0;
     }
 
     .myDropDownStyle {
-        width: 90%; 
+        width: 90%;
     }
 
     .styled-textbox {
-        width: 90%; 
+        width: 90%;
         margin-left: 0;
     }
 
     #Table2 {
-        font-size: 1em; 
+        font-size: 1em;
     }
 
-        #Table2 td,
-        #Table2 th {
-            padding: 6px 10px; 
-            font-size: 1.1em;
-        }
+    #Table2 td,
+    #Table2 th {
+        padding: 6px 10px;
+        font-size: 1.1em;
+    }
 
     footer {
         font-size: 1em;

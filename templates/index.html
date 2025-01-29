@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="static/style.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <title>NO LOVE NO LIFE</title>
     <script type="text/javascript">
+
         function goToForm() {
-            window.location.href = "form.html"; // Preusmeravanje na form.html
-        }
+    window.location.href = "/form";  // Preusmeravanje na /form rutu
+}
+
+
     
         function goToForm1() {
-            window.location.href = "form3.html"; // Preusmeravanje na form3.html
+            window.location.href = "/form3"; // Preusmeravanje na form3.html
         }
 
         // Na početku, sakrij dugme
@@ -20,7 +23,7 @@
             document.getElementById('button2').style.display = 'none';
         
             // Postavi datum i vreme do kada treba da bude skriveno dugme
-            const targetDate = new Date('2025-02-13T23:00:00');  // Na primer, 31. januar 2025.
+            const targetDate = new Date('2025-01-29T14:20:00');  // Na primer, 31. januar 2025.
 
             function checkTime() {
                 const currentDate = new Date();  // Dohvata trenutni datum i vreme

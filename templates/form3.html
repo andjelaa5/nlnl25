@@ -32,18 +32,18 @@
             </tbody>
         </table>
       <script>
-  window.onload = function() {
+window.onload = function() {
     // Učitaj podatke iz baze putem JSON rute
-    fetch('/get_form3_data')  // Ispravljeno na rutu koja vraća JSON podatke
+    fetch('/get_form3_data')  
         .then(response => {
-            console.log("Response: ", response);  // Logovanje odgovora
+            console.log("Response: ", response);  
             if (!response.ok) {
                 throw new Error("Ne mogu da dohvatim podatke");
             }
             return response.json();  // Pretvori JSON odgovor u objekat
         })
         .then(data => {
-            console.log("Data: ", data);  // Logovanje podataka
+            console.log("Data: ", data);  
             const userList = data.lista;  // 'lista' je ključ koji sadrži podatke
             const userListElement = document.getElementById('userList');
 
@@ -53,18 +53,21 @@
                     return innerArray; // Sada je svaka stavka već pravilno formatirana
                 });
 
-                for (let k = 7; k >= 0; k--) {
+                // Poređenje parova
+                for (let k = 7; k >= 0; k--) {  // Smanjivanje k dok ne nađeš idealne parove
                     for (let i = 0; i < item.length; i++) {
-                        if (parseInt(item[i].zauzet) === 1) // Preskoči zauzete
-                            continue;
+                        if (parseInt(item[i].zauzet) === 1) continue;  // Preskoči zauzete
+                        
                         for (let j = i + 1; j < item.length; j++) {
-                            if (parseInt(item[j].zauzet) === 1) // Preskoči zauzete
-                                continue;
+                            if (parseInt(item[j].zauzet) === 1) continue;  // Preskoči zauzete
+                            
                             br = 0;
                             // Uporedite različite parametre da biste stvorili parove
                             if (parseInt(item[i].zauzet) === 0 && parseInt(item[j].zauzet) === 0 &&
                                 JSON.stringify(item[i].zeljenipol) === JSON.stringify(item[j].pol) &&
                                 JSON.stringify(item[i].pol) === JSON.stringify(item[j].zeljenipol)) {
+
+                                // Prolazak kroz sve parametre za slaganje parova
                                 if (JSON.stringify(item[i].tiplicnosti) === JSON.stringify(item[j].tiplicnosti)) br++;
                                 if (JSON.stringify(item[i].roleModel) === JSON.stringify(item[j].roleModel)) br++;
                                 if (JSON.stringify(item[i].zivotnicilj) === JSON.stringify(item[j].zivotnicilj)) br++;
@@ -72,10 +75,12 @@
                                 if (JSON.stringify(item[i].pice) === JSON.stringify(item[j].pice)) br++;
                                 if (JSON.stringify(item[i].hobi) === JSON.stringify(item[j].hobi)) br++;
                                 if (JSON.stringify(item[i].pesma) === JSON.stringify(item[j].pesma)) br++;
+
+                                // Ako par zadovoljava kriterijum, označi ih kao zauzete
                                 if (br === k) {
-                                    item[i].zauzet = item[j].zauzet = 1; // Označi kao zauzete
-                                    item[i].par = item[j].id; // Par 1
-                                    item[j].par = item[i].id; // Par 2
+                                    item[i].zauzet = item[j].zauzet = 1;  // Označi kao zauzete
+                                    item[i].par = item[j].id;  // Par 1
+                                    item[j].par = item[i].id;  // Par 2
                                     break;
                                 }
                             }
@@ -105,7 +110,7 @@
                     // Dodajte red u telo tabele
                     tableBody.appendChild(row);
 
-                    // Resetovanje statusa zauzetosti
+                    // Resetovanje statusa zauzetosti za naredne iteracije
                     item[i].zauzet = 0;
                     item[parseInt(item[i].par) - 1].zauzet = 0;
                 }
@@ -116,9 +121,10 @@
             }
         })
         .catch(error => {
-            console.error("Greška pri učitavanju podataka:", error);  // Logovanje greške
+            console.error("Greška pri učitavanju podataka:", error);  
         });
-  }
+}
+
 
 </script>
 

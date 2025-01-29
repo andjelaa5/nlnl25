@@ -28,7 +28,9 @@ class User(db.Model):
     zauzet = db.Column(db.Boolean)
     par = db.Column(db.Integer)  # Povezivanje sa parom
 
-db.create_all()  # Kreira bazu podataka ako ne postoji
+# Koristimo `app.app_context()` da obezbedimo da se pozivi baze izvršavaju u kontekstu aplikacije
+with app.app_context():
+    db.create_all()  # Kreira bazu podataka ako ne postoji, samo u kontekstu aplikacije
 
 # Ruta za serviranje HTML forme
 @app.route('/')

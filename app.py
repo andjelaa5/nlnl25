@@ -43,9 +43,7 @@ def form():
 def form2():
     return render_template('form2.html')
 
-@app.route('/form3')
-def form3():
-    return render_template('form3.html')
+
 
 
 
@@ -96,8 +94,9 @@ def form3():
     except FileNotFoundError:
         pass  # Ako fajl nije pronađen, vraćamo praznu listu
 
-    # Vraćamo podatke u JSON formatu
-    return jsonify({'lista': data})
+    # Vraćanje stranice sa podacima (preko render_template)
+    return render_template('form3.html', lista=data)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)

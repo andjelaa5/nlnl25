@@ -35,8 +35,15 @@
   window.onload = function() {
     // Učitaj podatke iz baze putem JSON rute
     fetch('/get_form3_data')   // Ova ruta sada vraća JSON podatke sa baze
-        .then(response => response.json())  // Pretvori JSON odgovor u objekat
+        .then(response => {
+            console.log("Response: ", response);  // Logovanje odgovora
+            if (!response.ok) {
+                throw new Error("Ne mogu da dohvatim podatke");
+            }
+            return response.json();  // Pretvori JSON odgovor u objekat
+        })
         .then(data => {
+            console.log("Data: ", data);  // Logovanje podataka
             const userList = data.lista;  // 'lista' je ključ koji sadrži podatke
             const userListElement = document.getElementById('userList');
 
@@ -108,7 +115,9 @@
                 userListElement.appendChild(noDataMessage);
             }
         })
-        .catch(error => console.error("Greška pri učitavanju podataka:", error));
+        .catch(error => {
+            console.error("Greška pri učitavanju podataka:", error);  // Logovanje greške
+        });
 }
 
 </script>

@@ -34,7 +34,7 @@
         <script>
             // Funkcija za učitavanje podataka sa servera i smeštanje u JS listu
             window.onload = function() {
-                fetch('http://localhost:5000/form3')   // Ova ruta sada vraća JSON
+                fetch('/form3')   // Ova ruta sada vraća JSON
                     .then(response => response.json())  // Pretvori JSON odgovor u objekat
                     .then(data => {
                         const userList = data.lista;  // 'lista' je ključ koji sadrži podatke

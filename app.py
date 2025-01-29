@@ -33,7 +33,7 @@ def write_to_csv(data):
 # Ruta za serviranje HTML forme
 @app.route('/')
 def index():
-    return render_template('form.html')
+    return render_template('index.html')
 
 # Ruta za primanje podataka sa forme i upisivanje u CSV
 @app.route('/save_to_csv', methods=['POST'])

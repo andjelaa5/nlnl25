@@ -43,6 +43,9 @@ def form():
 def form2():
     return render_template('form2.html')
 
+@app.route('/form3')
+def form3():
+    return render_template('form3.html')
 
 
 

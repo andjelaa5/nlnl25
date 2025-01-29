@@ -44,7 +44,9 @@ def form():
 @app.route('/form2')
 def form2():
     return render_template('form2.html')
-
+@app.route('/form3')
+def form3_html():
+    return render_template('form3.html')
 # Ruta za primanje podataka sa forme i upisivanje u bazu
 @app.route('/save_to_csv', methods=['POST'])
 def save_to_csv():

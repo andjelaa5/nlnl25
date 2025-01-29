@@ -26,8 +26,11 @@ def get_last_user_number():
 
 # Funkcija za upisivanje podataka u CSV fajl
 def write_to_csv(data):
+    # Ako folder ne postoji, kreiraj ga
     if not os.path.exists(os.path.join('static', 'csv')):
-    os.makedirs(os.path.join('static', 'csv'))
+        os.makedirs(os.path.join('static', 'csv'))
+
+    # Upisivanje podataka u CSV fajl
     with open(csv_file, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(data)  # Dodaj podatke u fajl

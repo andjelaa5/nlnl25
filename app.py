@@ -78,8 +78,14 @@ def save_to_csv():
     })
 
 # Ruta za prikazivanje svih podataka u CSV fajlu (JSON format)
+# Ruta za prikazivanje HTML forme (form3)
 @app.route('/form3')
-def form3():
+def form3_html():
+    return render_template('form3.html')
+
+# Ruta za prikazivanje svih podataka u CSV fajlu (JSON format)
+@app.route('/get_form3_data')
+def form3_data():
     data = []
     try:
         with open(csv_file, mode='r', encoding='utf-8') as file:
@@ -91,6 +97,7 @@ def form3():
 
     # Vraćanje podataka u JSON formatu
     return jsonify({"lista": data})
+
 
 
 if __name__ == '__main__':

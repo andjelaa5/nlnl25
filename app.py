@@ -48,7 +48,6 @@ def form2():
 # Ruta za primanje podataka sa forme i upisivanje u bazu
 @app.route('/save_to_csv', methods=['POST'])
 def save_to_csv():
-    # Dobij podatke sa forme
     data = request.get_json()
 
     ime = data['ime']
@@ -94,4 +93,4 @@ def form3_data():
     return jsonify({"lista": data})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

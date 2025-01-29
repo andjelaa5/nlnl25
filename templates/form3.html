@@ -32,85 +32,48 @@
             </tbody>
         </table>
       <script>
-  
-   window.onload = function() {
+  <script>
+  window.onload = function() {
     // Učitaj podatke iz baze putem JSON rute
-    fetch('/get_form3_data')  
+    fetch('/get_form3_data')  // Ruta koja vraća JSON podatke
         .then(response => {
-            console.log("Response: ", response);  
+            console.log("Response: ", response);  // Logovanje odgovora
             if (!response.ok) {
                 throw new Error("Ne mogu da dohvatim podatke");
             }
             return response.json();  // Pretvori JSON odgovor u objekat
         })
         .then(data => {
-            console.log("Data: ", data);  
+            console.log("Data: ", data);  // Logovanje podataka
             const userList = data.lista;  // 'lista' je ključ koji sadrži podatke
             const userListElement = document.getElementById('userList');
 
+            // Provera da li ima korisnika
             if (userList && userList.length > 0) {
-                let br = 0;
-                const item = userList.map(innerArray => {
-                    return innerArray; // Sada je svaka stavka već pravilno formatirana
-                });
-
-                // Poređenje parova
-                for (let k = 7; k >= 0; k--) {  // Smanjivanje k dok ne nađeš idealne parove
-                    for (let i = 0; i < item.length; i++) {
-                        if (parseInt(item[i].zauzet) === 1) continue;  // Preskoči zauzete
-                        
-                        for (let j = i + 1; j < item.length; j++) {
-                            if (parseInt(item[j].zauzet) === 1) continue;  // Preskoči zauzete
-                            
-                            br = 0;
-                            // Uporedite različite parametre da biste stvorili parove
-                            if (parseInt(item[i].zauzet) === 0 && parseInt(item[j].zauzet) === 0 &&
-                                item[i].zeljenipol === item[j].pol &&
-                                item[i].pol === item[j].zeljenipol) {
-
-                                // Prolazak kroz sve parametre za slaganje parova
-                                if (item[i].tiplicnosti === item[j].tiplicnosti) br++;
-                                if (item[i].roleModel === item[j].roleModel) br++;
-                                if (item[i].zivotnicilj === item[j].zivotnicilj) br++;
-                                if (item[i].zanr === item[j].zanr) br++;
-                                if (item[i].pice === item[j].pice) br++;
-                                if (item[i].hobi === item[j].hobi) br++;
-                                if (item[i].pesma === item[j].pesma) br++;
-
-                                // Ako par zadovoljava kriterijum, označi ih kao zauzete
-                                if (br === k) {
-                                    item[i].zauzet = item[j].zauzet = 1;  // Označi kao zauzete
-                                    item[i].par = item[j].id;  // Par 1
-                                    item[j].par = item[i].id;  // Par 2
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
                 // Prikazivanje podataka u tabeli
                 let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
-                for (let i = 0; i < item.length; i++) {
-                    // Ako je item[i].zauzet 0, preskočite taj red (prikazujemo samo zauzete)
-                    if (item[i].zauzet === 0) continue;
+                tableBody.innerHTML = '';  // Očisti prethodne redove
 
-                    // Kreiraj novi red za tabelu
-                    let row = document.createElement("tr");
+                userList.forEach(user => {
+                    // Ako je korisnik zauzet, prikaži ga u tabeli
+                    if (user.zauzet) {
+                        // Kreiraj novi red za tabelu
+                        let row = document.createElement("tr");
 
-                    // Kreiraj ćeliju za item[i].id (prvi element)
-                    let cell1 = document.createElement("td");
-                    cell1.textContent = item[i].id;
-                    row.appendChild(cell1);
+                        // Kreiraj ćeliju za ID korisnika
+                        let cell1 = document.createElement("td");
+                        cell1.textContent = user.id;
+                        row.appendChild(cell1);
 
-                    // Kreiraj ćeliju za item[i].par (par element)
-                    let cell2 = document.createElement("td");
-                    cell2.textContent = item[i].par;
-                    row.appendChild(cell2);
+                        // Kreiraj ćeliju za ID para korisnika
+                        let cell2 = document.createElement("td");
+                        cell2.textContent = user.par || 'Nema para';
+                        row.appendChild(cell2);
 
-                    // Dodajte red u telo tabele
-                    tableBody.appendChild(row);
-                }
+                        // Dodajte red u telo tabele
+                        tableBody.appendChild(row);
+                    }
+                });
             } else {
                 const noDataMessage = document.createElement('li');
                 noDataMessage.textContent = 'Nema podataka za prikazivanje.';
@@ -118,9 +81,10 @@
             }
         })
         .catch(error => {
-            console.error("Greška pri učitavanju podataka:", error);  
+            console.error("Greška pri učitavanju podataka:", error);  // Logovanje greške
         });
-}
+  }
+</script>
 
         </script>
 

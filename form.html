@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>NO LOVE NO LIFE</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header> 
+        <h1>NO LOVE NO LIFE</h1>
+    </header>
+    <div class="b">
+        <h2>Popuni formu i pronadji svoju srodnu dusu!</h2>
+        <h3>XOXOXOXO</h3>
+    </div>
+    <main class="main2">
+        <form id="userForm">
+            <label for="ime" class="myLabelStyle">Ime:</label></br>
+            <input type="text" id="ime" name="ime" required Class="styled-textbox"><br><br>
+
+            <label for="prezime" class="myLabelStyle">Prezime:</label></br>
+            <input type="text" id="prezime" name="prezime" required Class="styled-textbox"><br><br>
+
+            <label for="pol" class="myLabelStyle">Pol:</label></br>
+            <select id="pol" name="pol" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Muski">Muski</option>
+                <option value="Zenski">Zenski</option>
+            </select><br><br>
+
+            <label for="zeljenipol" class="myLabelStyle">Pol interesa:</label></br>
+            <select id="zeljenipol" name="zeljenipol" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Muski">Muski</option>
+                <option value="Zenski">Zenski</option>
+            </select><br><br>
+
+            <label for="tiplicnosti" class="myLabelStyle">Tip Licnosti koji te najbolje opisuje:</label></br>
+            <select id="tiplicnosti" name="tiplicnosti" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Ekstrovertan">Ekstrovertan</option>
+                <option value="Introvertan">Introvertan</option>
+            </select><br><br>
+
+            <label for="roleModel" class="myLabelStyle">Licnost koja me najvise inspirise od ponudjenih je:</label></br>
+            <select id="roleModel" name="roleModel" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Miljana Kulic">Miljana Kulic</option>
+                <option value="Kristijan Golubovic">Kristijan Golubovic</option>
+                <option value="Aca Lukas">Aca Lukas</option>
+                <option value="Jovana Jeremic">Jovana Jeremic</option>
+            </select><br><br>
+
+            <label for="zivotnicilj" class="myLabelStyle">Sta od sledeceg bi izdvojio/la kao svoj zivotni cilj:</label></br>
+            <select id="zivotnicilj" name="zivotnicilj" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Uspesna karijera">Uspesna karijera</option>
+                <option value="Idealna porodica">Idealna porodica</option>
+                <option value="Proputovati ceo svet">Proputovati ceo svet</option>
+                <option value="Postati poznat">Postati poznat</option>
+            </select><br><br>
+
+            <label for="zanr" class="myLabelStyle">Omiljeni zanr filmova:</label></br>
+            <select id="zanr" name="zanr" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Triler">Triler</option>
+                <option value="Horor">Horor</option>
+                <option value="Romanticni">Romanticni</option>
+                <option value="Komedija">Komedija</option>
+            </select><br><br>
+
+            <label for="pice" class="myLabelStyle">Odaberi jedno pice:</label></br>
+            <select id="pice" name="pice" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Pivo">Pivo</option>
+                <option value="Rakija">Rakija</option>
+                <option value="Viski">Viski</option>
+                <option value="Vodka">Vodka</option>
+            </select><br><br>
+
+            <label for="hobi" class="myLabelStyle">U slobodno vreme najvise volim da:</label></br>
+            <select id="hobi" name="hobi" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Treniram">Treniram</option>
+                <option value="Igram igrice">Igram igrice</option>
+                <option value="Citam">Citam</option>
+                <option value="Izlazim sa drustvom">Izlazim sa drustvom</option>
+            </select><br><br>
+
+            <label for="pesma" class="myLabelStyle">Odaberi jednu od sledecih pesama:</label></br>
+            <select id="pesma" name="pesma" required class="myDropDownStyle">
+                <option value="" disabled selected>Izaberi</option>
+                <option value="Cakum pakum">Cakum pakum</option>
+                <option value="Mangio pasta">Mangio pasta</option>
+                <option value="Kukavica">Kukavica</option>
+                <option value="Kosi tata, kosim ja">Kosi tata, kosim ja</option>
+            </select><br><br>
+
+            <button type="submit" class="gumb">Submit</button>
+           
+        </form>
+
+        <div id="response"></div> <!-- Ovde će biti prikazani podaci -->
+    </main>
+
+    <footer>
+        <p class="a"> Napravljeno s ljubavlju za NLNL &#169; 2025 </p>
+    </footer>
+<script>
+      
+    document.getElementById("userForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Sprečava da se forma pošalje na default način
+    
+        // Uzmi vrednosti iz forme
+        const ime = document.getElementById("ime").value;
+        const prezime = document.getElementById("prezime").value;
+        const pol = document.getElementById("pol").value;
+        const zeljenipol = document.getElementById("zeljenipol").value;
+        const tiplicnosti = document.getElementById("tiplicnosti").value;
+        const roleModel = document.getElementById("roleModel").value;
+        const zivotnicilj = document.getElementById("zivotnicilj").value;
+        const zanr = document.getElementById("zanr").value;
+        const pice = document.getElementById("pice").value;
+        const hobi = document.getElementById("hobi").value;
+        const pesma = document.getElementById("pesma").value;
+         const zauzet=0;
+          const par=0;
+        // Proveri da li su podaci uneti
+        if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
+            alert("Molim Vas da popunite sva polja");
+            return;
+        }
+    
+        // Pripremi podatke za slanje
+        const formData = {
+            ime: ime,
+            prezime: prezime,
+            pol: pol,
+            zeljenipol: zeljenipol,
+            tiplicnosti: tiplicnosti,
+            roleModel: roleModel,
+            zivotnicilj: zivotnicilj,
+            zanr: zanr,
+            pice: pice,
+            hobi: hobi,
+            pesma: pesma,
+            zauzet:zauzet,
+            par:par
+        };
+    
+        // Pošaljite podatke serveru (putem fetch-a)
+        fetch("http://127.0.0.1:5000/save_to_csv", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+           
+    
+            // Spremi broj korisnika u localStorage
+            localStorage.setItem("userNumber", data.broj); // Čuva broj korisnika u localStorage
+            window.location.href = "form2.html"; // Preusmeravanje na form2.html
+    
+            // Prikazivanje svih podataka u listi
+            const lista = data.lista;  // Preuzimaš listu iz odgovora
+            let htmlContent = '<h3>Lista unetih podataka:</h3><ul>';
+            
+            // Provera da li je lista zapravo niz pre nego što je obradimo
+            if (Array.isArray(lista)) {
+                lista.forEach(item => {
+                    htmlContent += `
+                        <li>
+                            <strong>Ime:</strong> ${item[1]} <br>
+                            <strong>Prezime:</strong> ${item[2]} <br>
+                            <strong>Pol:</strong> ${item[3]} <br>
+                            <strong>Željeni Pol:</strong> ${item[4]} <br>
+                            <strong>Tipičnosti:</strong> ${item[5]} <br>
+                            <strong>Role Model:</strong> ${item[6]} <br>
+                            <strong>Životni Cilj:</strong> ${item[7]} <br>
+                            <strong>Žanr:</strong> ${item[8]} <br>
+                            <strong>Piće:</strong> ${item[9]} <br>
+                            <strong>Hobi:</strong> ${item[10]} <br>
+                            <strong>Pesma:</strong> ${item[11]} <br>
+                        </li>
+                    `;
+                });
+            } else {
+                htmlContent = "<p>Lista podataka nije dostupna.</p>";
+            }
+            
+            htmlContent += '</ul>';
+            document.getElementById("response").innerHTML = htmlContent;  // Prikazivanje liste u div-u
+        })
+        .catch(error => {
+            console.error("Greška:", error);
+            
+        });
+    });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <title>NO LOVE NO LIFE</title>
+    <script type="text/javascript">
+        function goToForm() {
+            window.location.href = "form.html"; // Preusmeravanje na form.html
+        }
+    
+        function goToForm1() {
+            window.location.href = "form3.html"; // Preusmeravanje na form3.html
+        }
+
+        // Na početku, sakrij dugme
+        window.onload = function() {
+            document.getElementById('button2').style.display = 'none';
+        
+            // Postavi datum i vreme do kada treba da bude skriveno dugme
+            const targetDate = new Date('2025-02-13T23:00:00');  // Na primer, 31. januar 2025.
+
+            function checkTime() {
+                const currentDate = new Date();  // Dohvata trenutni datum i vreme
+                if (currentDate >= targetDate) {
+                    // Ako je trenutni datum veći ili jednak ciljanom datumu, prikaži dugme
+                    document.getElementById('button2').style.display = 'block';
+                    clearInterval(interval);  // Zaustavi proveru
+                }
+            }
+
+            // Proveravaj svake sekunde
+            const interval = setInterval(checkTime, 100);
+        };
+    </script>
+</head>
+<body>
+    <header> 
+        <h1>NO LOVE NO LIFE</h1>
+    </header>
+    
+    <main class="main1">
+        <form id="form2" runat="server">
+            <div class="b">
+                <h2>Popuni formu i pronadji svoju srodnu dusu!</h2>
+                <h3>XOXOXOXO</h3>
+            </div>
+            <h4>Valentines day Matchmaking!</h4>
+    
+            <!-- Dodaj onClick događaj za dugme -->
+            <button type="button" class="button" onclick="goToForm()">KRENI!</button>
+            <!-- Ispravljena sintaksa za dugme Tabela sa ID-jem -->
+            <button type="button" id="button2" class="button" onclick="goToForm1()">Tabela</button>
+        </form>
+    </main>
+
+    <footer>
+        <p class="a"> Napravljeno s ljubavlju za NLNL &#169; 2025 </p>
+    </footer>
+</body>
+</html>

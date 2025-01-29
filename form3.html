@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <title>NO LOVE NO LIFE</title>
+</head>
+<body>
+    <header> 
+        <h1>NO LOVE NO LIFE</h1>
+    </header>
+
+    <main class="main2">
+        <div class="b">
+            <h2>Popuni formu i pronadji svoju srodnu dusu!</h2>
+            <h3>XOXOXOXO</h3>
+        </div>
+        
+        <!-- Lista koja se popunjava podacima -->
+        <ul id="userList"></ul> 
+        <table id="dataTable" class = "Table2">
+            <thead class = "th1">
+                <tr>
+                    <th>Par 1</th>
+                    <th>Par 2</th>
+                </tr>
+            </thead>
+            <tbody class = "td1">
+                <!-- Podaci će biti dodani ovde pomoću JavaScript-a -->
+            </tbody>
+        </table>
+        <script>
+            // Funkcija za učitavanje podataka sa servera i smeštanje u JS listu
+            window.onload = function() {
+                fetch('http://localhost:5000/form3')   // Ova ruta sada vraća JSON
+                    .then(response => response.json())  // Pretvori JSON odgovor u objekat
+                    .then(data => {
+                        const userList = data.lista;  // 'lista' je ključ koji sadrži podatke
+                        const userListElement = document.getElementById('userList');
+  // Prođi kroz sve korisnike i prikaži ih u listi
+                            if (userList && userList.length > 0) {
+                                let br = 0;
+                                const item = userList.map(innerArray => {
+                                            return innerArray.map(str => str.split(",")); // Splitujemo string po zarezu
+                                        });
+                                for (let k = 7;k >= 0;k--) {
+                                    for (let i = 0;i < item.length;i++) {
+                                        if (parseInt(item[i][13]) == 1)
+                                            continue;
+                                        for (let j = i + 1;j < item.length;j++) {
+                                            if (parseInt(item[j][13]) == 1)
+                                                continue;
+                                            br = 0;
+                                            if (parseInt(item[i][13]) == 0 && parseInt(item[j][13]) == 0 && JSON.stringify(item[i][4]) == JSON.stringify(item[j][3]) && JSON.stringify(item[i][3]) == JSON.stringify(item[j][4])) {
+                                                if (JSON.stringify([i][5]) == JSON.stringify([j][5]))
+                                                    br++;
+                                                if (JSON.stringify([i][6]) == JSON.stringify([j][6]))
+                                                    br++;
+                                                if (JSON.stringify([i][7]) == JSON.stringify([j][7]))
+                                                    br++;
+                                                if (JSON.stringify([i][8]) == JSON.stringify([j][8]))
+                                                    br++;
+                                                if (JSON.stringify([i][9]) == JSON.stringify([j][9]))
+                                                    br++;
+                                                if (JSON.stringify([i][10]) == JSON.stringify([j][10]))
+                                                    br++;
+                                                if (JSON.stringify([i][11]) == JSON.stringify([j][11]))
+                                                    br++;
+                                                if (br == k) {
+                                                    item[i][13] = item[j][13] = 1;
+                                                    item[i][14] = item[j][0];
+                                                    item[j][14] = item[i][0];
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }   
+                                }
+                                let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+                                for (let i = 0; i < item.length; i++) {
+            // Ako je item[i][13] 0, preskočite taj red
+                                    if (item[i][13] == 0) continue;
+                                    
+                                    // Kreiraj novi red za tabelu
+                                    let row = document.createElement("tr");
+
+                                    // Kreiraj ćeliju za item[i][0] (prvi element)
+                                    let cell1 = document.createElement("td");
+                                    cell1.textContent = item[i][0];
+                                    row.appendChild(cell1);
+
+                                    // Kreiraj ćeliju za item[i][14] (petnaesti element)
+                                    let cell2 = document.createElement("td");
+                                    cell2.textContent = item[i][14];
+                                    row.appendChild(cell2);
+
+                                    // Dodajte red u telo tabele
+                                    tableBody.appendChild(row);
+                                // Postavite item[i][13] na 0 (kao u originalnom kodu)
+                                    item[i][13] = 0;
+                                    item[parseInt(item[i][14]) - 1][13] = 0;
+                            }
+                            // userList.forEach(user => {
+                            //     const listItem = document.createElement('li');
+                            //     listItem.innerHTML = `
+                            //         <strong>Broj:</strong> ${user[0]}, 
+                            //         <strong>Ime:</strong> ${user[1]}, 
+                            //         <strong>Prezime:</strong> ${user[2]}, 
+                            //         <strong>Pol:</strong> ${user[3]}, 
+                            //         <strong>Željeni Pol:</strong> ${user[4]}, 
+                            //         <strong>Tipičnosti:</strong> ${user[5]}, 
+                            //         <strong>Role Model:</strong> ${user[6]}, 
+                            //         <strong>Životni Cilj:</strong> ${user[7]}, 
+                            //         <strong>Žanr:</strong> ${user[8]}, 
+                            //         <strong>Piće:</strong> ${user[9]}, 
+                            //         <strong>Hobi:</strong> ${user[10]}, 
+                            //         <strong>Pesma:</strong> ${user[11]}`
+                            //     ;
+                            //     userListElement.appendChild(listItem);
+//});
+                        } 
+                        else {
+                            const noDataMessage = document.createElement('li');
+                            noDataMessage.textContent = 'Nema podataka za prikazivanje.';
+                            userListElement.appendChild(noDataMessage);
+                        }
+
+                    })
+                    .catch(error => console.error("Greška pri učitavanju podataka:", error));
+            }
+        </script>
+    </main>
+
+    <footer >
+        <p class="a"> Napravljeno s ljubavlju za NLNL &#169; 2025 </p>
+    </footer>
+</body>
+</html>

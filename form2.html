@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NO LOVE NO LIFE - Form 2</title>
+
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header> 
+        <h1>NO LOVE NO LIFE</h1>
+    </header>
+
+    <main class="main1">
+        <div class="b">
+            <h2>Popuni formu i pronadji svoju srodnu dusu!</h2>
+            <h3>XOXOXOXO</h3>
+        </div>
+        
+        <h5>Vaš broj je: <span id="userNumber"></span></h5>
+    </main>
+
+    <footer>
+        <p class="a"> Napravljeno s ljubavlju za NLNL &#169; 2025 </p>
+    </footer>
+
+    <script>
+        // Pokušaj preuzimanja broja korisnika iz localStorage-a
+        const userNumber = localStorage.getItem('userNumber');
+        
+        if (userNumber) {
+            // Ako postoji broj, prikazujemo ga na stranici
+            document.getElementById('userNumber').textContent = userNumber;
+        } else {
+            // Ako broj ne postoji u localStorage, postavljamo podrazumevanu vrednost
+            document.getElementById('userNumber').textContent = "N/A";
+        }
+    </script>
+</body>
+</html>

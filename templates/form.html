@@ -168,27 +168,7 @@
     
             // Prikazivanje svih podataka u listi
             const lista = data.lista;  // Preuzimaš listu iz odgovora
-            let htmlContent = '<h3>Lista unetih podataka:</h3><ul>';
-            
-            // Provera da li je lista zapravo niz pre nego što je obradimo
-            if (Array.isArray(lista)) {
-                lista.forEach(item => {
-                    htmlContent += `
-                        <li>
-                            <strong>Ime:</strong> ${item[1]} <br>
-                            <strong>Prezime:</strong> ${item[2]} <br>
-                            <strong>Pol:</strong> ${item[3]} <br>
-                            <strong>Željeni Pol:</strong> ${item[4]} <br>
-                            <strong>Tipičnosti:</strong> ${item[5]} <br>
-                            <strong>Role Model:</strong> ${item[6]} <br>
-                            <strong>Životni Cilj:</strong> ${item[7]} <br>
-                            <strong>Žanr:</strong> ${item[8]} <br>
-                            <strong>Piće:</strong> ${item[9]} <br>
-                            <strong>Hobi:</strong> ${item[10]} <br>
-                            <strong>Pesma:</strong> ${item[11]} <br>
-                        </li>
-                    `;
-                });
+          
             } else {
                // htmlContent = "<p>Lista podataka nije dostupna.</p>";
             }

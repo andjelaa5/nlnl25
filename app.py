@@ -39,6 +39,12 @@ def index():
 def form():
     return render_template('form.html')
 
+@app.route('/form2')
+def form2():
+    return render_template('form2.html')
+
+
+
 
 # Ruta za primanje podataka sa forme i upisivanje u CSV
 @app.route('/save_to_csv', methods=['POST'])

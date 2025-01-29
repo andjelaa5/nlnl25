@@ -34,7 +34,7 @@
       <script>
   window.onload = function() {
     // Učitaj podatke iz baze putem JSON rute
-    fetch('/form3')   // Ova ruta sada vraća JSON podatke sa baze
+    fetch('/get_form3_data')  // Ispravljeno na rutu koja vraća JSON podatke
         .then(response => {
             console.log("Response: ", response);  // Logovanje odgovora
             if (!response.ok) {
@@ -119,6 +119,7 @@
             console.error("Greška pri učitavanju podataka:", error);  // Logovanje greške
         });
   }
+
 </script>
 
     </main>

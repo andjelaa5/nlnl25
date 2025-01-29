@@ -1,6 +1,7 @@
 import csv
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS
@@ -84,7 +85,6 @@ def form3():
     # Vraćamo podatke u JSON formatu
     return jsonify({'lista': data})
 
-
-    if __name__ == '__main__':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)
 

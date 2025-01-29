@@ -109,56 +109,56 @@
     </footer>
 <script>
       
-   document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Sprečava da se forma pošalje na default način
-
-    // Uzmi vrednosti iz forme
-    const ime = document.getElementById("ime").value;
-    const prezime = document.getElementById("prezime").value;
-    const pol = document.getElementById("pol").value;
-    const zeljenipol = document.getElementById("zeljenipol").value;
-    const tiplicnosti = document.getElementById("tiplicnosti").value;
-    const roleModel = document.getElementById("roleModel").value;
-    const zivotnicilj = document.getElementById("zivotnicilj").value;
-    const zanr = document.getElementById("zanr").value;
-    const pice = document.getElementById("pice").value;
-    const hobi = document.getElementById("hobi").value;
-    const pesma = document.getElementById("pesma").value;
-    const zauzet = 0;
-    const par = 0;
-
-    // Proveri da li su podaci uneti
-    if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
-        alert("Molim Vas da popunite sva polja");
-        return;
-    }
-
-    // Pripremi podatke za slanje
-    const formData = {
-        ime: ime,
-        prezime: prezime,
-        pol: pol,
-        zeljenipol: zeljenipol,
-        tiplicnosti: tiplicnosti,
-        roleModel: roleModel,
-        zivotnicilj: zivotnicilj,
-        zanr: zanr,
-        pice: pice,
-        hobi: hobi,
-        pesma: pesma,
-        zauzet: zauzet,
-        par: par
-    };
-
-    // Pošaljite podatke serveru (putem fetch-a)
-    fetch("https://nlnl25-3.onrender.com/save_to_csv", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData)
-    })
-     .then(response => response.json())
+   
+    document.getElementById("userForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Sprečava da se forma pošalje na default način
+    
+        // Uzmi vrednosti iz forme
+        const ime = document.getElementById("ime").value;
+        const prezime = document.getElementById("prezime").value;
+        const pol = document.getElementById("pol").value;
+        const zeljenipol = document.getElementById("zeljenipol").value;
+        const tiplicnosti = document.getElementById("tiplicnosti").value;
+        const roleModel = document.getElementById("roleModel").value;
+        const zivotnicilj = document.getElementById("zivotnicilj").value;
+        const zanr = document.getElementById("zanr").value;
+        const pice = document.getElementById("pice").value;
+        const hobi = document.getElementById("hobi").value;
+        const pesma = document.getElementById("pesma").value;
+         const zauzet=0;
+          const par=0;
+        // Proveri da li su podaci uneti
+        if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
+            alert("Molim Vas da popunite sva polja");
+            return;
+        }
+    
+        // Pripremi podatke za slanje
+        const formData = {
+            ime: ime,
+            prezime: prezime,
+            pol: pol,
+            zeljenipol: zeljenipol,
+            tiplicnosti: tiplicnosti,
+            roleModel: roleModel,
+            zivotnicilj: zivotnicilj,
+            zanr: zanr,
+            pice: pice,
+            hobi: hobi,
+            pesma: pesma,
+            zauzet:zauzet,
+            par:par
+        };
+    
+        // Pošaljite podatke serveru (putem fetch-a)
+      fetch("https://nlnl25-3.onrender.com/save_to_csv", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
         .then(data => {
            
     
@@ -170,7 +170,25 @@
             const lista = data.lista;  // Preuzimaš listu iz odgovora
             let htmlContent = '<h3>Lista unetih podataka:</h3><ul>';
             
-            
+            // Provera da li je lista zapravo niz pre nego što je obradimo
+            if (Array.isArray(lista)) {
+                lista.forEach(item => {
+                    htmlContent += `
+                        <li>
+                            <strong>Ime:</strong> ${item[1]} <br>
+                            <strong>Prezime:</strong> ${item[2]} <br>
+                            <strong>Pol:</strong> ${item[3]} <br>
+                            <strong>Željeni Pol:</strong> ${item[4]} <br>
+                            <strong>Tipičnosti:</strong> ${item[5]} <br>
+                            <strong>Role Model:</strong> ${item[6]} <br>
+                            <strong>Životni Cilj:</strong> ${item[7]} <br>
+                            <strong>Žanr:</strong> ${item[8]} <br>
+                            <strong>Piće:</strong> ${item[9]} <br>
+                            <strong>Hobi:</strong> ${item[10]} <br>
+                            <strong>Pesma:</strong> ${item[11]} <br>
+                        </li>
+                    `;
+                });
             } else {
                // htmlContent = "<p>Lista podataka nije dostupna.</p>";
             }

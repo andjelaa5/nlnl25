@@ -158,17 +158,31 @@
         },
         body: JSON.stringify(formData)
     })
-    .then(response => response.json())
-    .then(data => {
-        // Spremi broj korisnika u localStorage
-        localStorage.setItem("userNumber", data.userId); // Čuva broj korisnika u localStorage
-        window.location.href = "/form2"; // Preusmeravanje na form2.html
-    })
-    .catch(error => {
-        console.error("Greška:", error);
+     .then(response => response.json())
+        .then(data => {
+           
+    
+            // Spremi broj korisnika u localStorage
+            localStorage.setItem("userNumber", data.broj); // Čuva broj korisnika u localStorage
+             window.location.href = "/form2"; // Preusmeravanje na form2.html
+    
+            // Prikazivanje svih podataka u listi
+            const lista = data.lista;  // Preuzimaš listu iz odgovora
+            let htmlContent = '<h3>Lista unetih podataka:</h3><ul>';
+            
+            
+            } else {
+               // htmlContent = "<p>Lista podataka nije dostupna.</p>";
+            }
+            
+            htmlContent += '</ul>';
+            document.getElementById("response").innerHTML = htmlContent;  // Prikazivanje liste u div-u
+        })
+        .catch(error => {
+            console.error("Greška:", error);
+            
+        });
     });
-});
-
     </script>
     
 </body>

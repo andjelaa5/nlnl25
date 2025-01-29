@@ -32,7 +32,7 @@
             </tbody>
         </table>
       <script>
-window.onload = function() {
+        window.onload = function() {
     // Učitaj podatke iz baze putem JSON rute
     fetch('/get_form3_data')  
         .then(response => {
@@ -105,6 +105,12 @@ window.onload = function() {
                     // Kreiraj ćeliju za item[i].par (par element)
                     let cell2 = document.createElement("td");
                     cell2.textContent = item[i].par;
+
+                    // Proveri da li je `par` vrednost validna
+                    if (item[i].par && item[parseInt(item[i].par) - 1]) {
+                        item[parseInt(item[i].par) - 1].zauzet = 0; // Resetuj zauzetost za partnera
+                    }
+                    
                     row.appendChild(cell2);
 
                     // Dodajte red u telo tabele
@@ -112,7 +118,6 @@ window.onload = function() {
 
                     // Resetovanje statusa zauzetosti za naredne iteracije
                     item[i].zauzet = 0;
-                    item[parseInt(item[i].par) - 1].zauzet = 0;
                 }
             } else {
                 const noDataMessage = document.createElement('li');
@@ -126,7 +131,7 @@ window.onload = function() {
 }
 
 
-</script>
+        </script>
 
     </main>
 

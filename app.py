@@ -1,4 +1,3 @@
-
 import csv
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
@@ -64,10 +63,11 @@ def save_to_csv():
     pice = data['pice']
     hobi = data['hobi']
     pesma = data['pesma']
-    zauzet= data['zauzet']
-    par= data['zauzet']
+    zauzet = data['zauzet']
+    par = data['zauzet']
+    
     # Pripremi podatke koji se upisuju u CSV (uključujući broj korisnika)
-    user_data = [user_counter, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma,zauzet,par]
+    user_data = [user_counter, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
 
     # Upisivanje podataka u CSV fajl
     write_to_csv(user_data)
@@ -78,13 +78,12 @@ def save_to_csv():
         "broj": user_counter
     })
 
-# Ruta za prikazivanje svih podataka u CSV fajlu (JSON format)
 # Ruta za prikazivanje HTML forme (form3)
-@app.route('/form3')
+@app.route('/form3_html')
 def form3_html():
     return render_template('form3.html')
 
-# Ruta za prikazivanje svih podataka u CSV fajlu (JSON format)
+# Ruta za dobijanje podataka u JSON formatu (form3 podaci)
 @app.route('/get_form3_data')
 def form3_data():
     data = []
@@ -99,8 +98,5 @@ def form3_data():
     # Vraćanje podataka u JSON formatu
     return jsonify({"lista": data})
 
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)
-

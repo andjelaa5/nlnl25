@@ -80,7 +80,7 @@ def save_to_csv():
 
 # Ruta za prikazivanje HTML forme (form3)
 @app.route('/form3')
-def form3_html():
+def form3():
     return render_template('form3.html')
 
 # Ruta za dobijanje podataka u JSON formatu (form3 podaci)

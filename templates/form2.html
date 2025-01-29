@@ -29,37 +29,17 @@
     </footer>
 
    <script>
-    // Kada se stranica učita
-    window.onload = function() {
-        // Prvo pokušaj da preuzmeš korisnički ID iz localStorage
-        let userNumber = localStorage.getItem('userNumber');
+   // Pokušaj preuzimanja broja korisnika iz localStorage-a
+const userNumber = localStorage.getItem('userNumber');
 
-        // Ako korisnički ID nije pronađen u localStorage, pozovi backend da bi dobio ID
-        if (!userNumber) {
-            fetch('/get_user_id')  // Pozivanje rute koja vraća ID korisnika
-                .then(response => response.json())  // Dobijanje JSON odgovora
-                .then(data => {
-                    if (data.userId !== null) {
-                        // Ako je korisnički ID pronađen, sačuvaj ga u localStorage
-                        localStorage.setItem('userNumber', data.userId);
-                        userNumber = data.userId;  // Prikazivanje korisničkog ID-a na stranici
-                    } else {
-                        // Ako nije pronađen korisnik
-                        userNumber = "N/A";
-                    }
+if (userNumber) {
+    // Ako postoji broj, prikazujemo ga na stranici
+    document.getElementById('userNumber').textContent = userNumber;
+} else {
+    // Ako broj ne postoji u localStorage, postavljamo podrazumevanu vrednost
+    document.getElementById('userNumber').textContent = "N/A";
+}
 
-                    // Prikazivanje korisničkog ID-a na stranici
-                    document.getElementById('userNumber').textContent = userNumber;
-                })
-                .catch(error => {
-                    console.error("Greška pri preuzimanju korisničkog ID-a:", error);
-                    document.getElementById('userNumber').textContent = "Greška pri učitavanju";
-                });
-        } else {
-            // Ako je korisnički ID već u localStorage, prikaži ga odmah
-            document.getElementById('userNumber').textContent = userNumber;
-        }
-    }
 </script>
 
 </body>

@@ -1,7 +1,7 @@
 body {
     background-color: white;
 }
-
+ 
 html, body {
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ html, body {
     display: flex;
     flex-direction: column;
 }
-
+ 
 header {
     background-color: #e12d1f;
     width: 100%;
@@ -18,13 +18,12 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
     flex-direction: column;
 }
-
+ 
     header h1 {
         color: white;
         text-align: center;
@@ -33,7 +32,7 @@ header {
         letter-spacing: 2px;
         margin: 0;
     }
-
+ 
 .b {
     background-color: white;
     width: 100%;
@@ -42,12 +41,12 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-   margin-top: 10px;
-   margin-bottom: 50px;
+    margin-top: 10px;
+    margin-bottom: 50px;
     padding: 0;
  
 }
-
+ 
 h2, h3 {
     color: #e12d1f;
     text-align: center;
@@ -56,16 +55,16 @@ h2, h3 {
     letter-spacing: 2px;
     margin: 0;
 }
-
+ 
 h2 {
     margin-top: 40px;
     margin-bottom: 10px;
 }
-
+ 
 h3 {
     margin-top: 5px;
 }
-
+ 
 h4 {
     color: #e12d1f;
     text-align: center;
@@ -78,7 +77,7 @@ h4 {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
+ 
 h5 {
     color: #e12d1f;
     text-align: center;
@@ -91,7 +90,7 @@ h5 {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
+ 
 .main1 {
     flex: 1;
     padding: 0px;
@@ -101,7 +100,7 @@ h5 {
     background-position: center center;
     background-repeat: no-repeat;
 }
-
+ 
 .main2 {
     flex: 1;
     padding: 0px;
@@ -111,7 +110,7 @@ h5 {
     background-position: center center;
     background-repeat: no-repeat;
 }
-
+ 
 footer {
     background-color: #e12d1f;
     width: 100%;
@@ -124,23 +123,23 @@ footer {
     font-size: 1.2em;
     padding: 0;
 }
-
+ 
     footer p {
         margin: 0;
         color: white;
     }
-
-    
-        
-
+ 
+ 
+ 
+ 
 .a {
     color: white;
     text-align: center;
     font-size: 1.2em;
     font-family: 'Montserrat', sans-serif;
-  
+ 
 }
-
+ 
 .button {
     padding: 15px 30px;
     font-size: 1.5em;
@@ -156,12 +155,12 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
+ 
     .styled-button:hover {
         background-color: #d52a1b;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
     }
-
+ 
 .myLabelStyle {
     color: #e12d1f;
     text-align: center;
@@ -171,7 +170,7 @@ footer {
     margin-bottom: 10px;
     margin-left: 50px;
 }
-
+ 
 .myDropDownStyle {
     padding: 12px 20px;
     font-size: 1.1em;
@@ -188,17 +187,17 @@ footer {
     margin-left: 50px;
     position: relative;
 }
-
+ 
     .myDropDownStyle:hover {
         border-color: #d52a1b;
         background-color: #f7f7f7;
     }
-
+ 
     .myDropDownStyle:focus {
         border-color: #e12d1f;
         background-color: #fff;
     }
-
+ 
 .styled-textbox {
     width: 100%;
     height: 1.5vh;
@@ -212,17 +211,17 @@ footer {
     transition: border-color 0.3s, box-shadow 0.3s;
     margin-left: 50px;
 }
-
+ 
     .styled-textbox:focus {
         border-color: #731815;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         outline: none;
     }
-
+ 
     .styled-textbox::placeholder {
         color: #aaa;
     }
-
+ 
 .gumb {
     padding: 15px 30px;
     font-size: 1.5em;
@@ -236,12 +235,12 @@ footer {
     margin-bottom: 20px;
     margin-left: 400px;
 }
-
+ 
     .gumb:hover {
         background-color: #d52a1b;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
     }
-
+ 
     .Table2 {
         width: 80%;
         margin: 0 auto;
@@ -254,38 +253,34 @@ footer {
         max-height: 80vh; /* Ograničena visina tabele */
         overflow-y: auto; 
     }
-    
+ 
     .td1,
     .th1 {
         padding: 10px 15px;
-        
+ 
         text-align: center;
         color: #e12d1f;
         font-family: 'Lora', serif;
         font-size: 1.5em;
         background-color: #fee1dd;
     }
-
+ 
     .th1 {
         background-color: #e12d1f;
         color: white;
     }
-
-    
-
-
-  
-
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 @media screen and (max-width: 768px) {
-    header {
-        height: 10vh;
-    }
-
     header h1 {
         font-size: 1.1em;
     }
-
+ 
     .b {
         background-color: white;
         width: 100%;
@@ -296,102 +291,102 @@ footer {
         align-items: center;
         margin-top: 20px; /* Razmak između header-a i .b */
         margin-bottom: 20px; /* Smanjen razmak na dnu */
-        padding: 0 10px; /* Dodajemo padding za manji razmak sa strane */
+ 
     }
-
+ 
     .button {
         font-size: 1.3em;
         padding: 12px 25px;
         width: 90%;
     }
-
+ 
     .myLabelStyle {
         margin-top: 20px;
         font-size: 1.2em;
         margin-left: 20px;
     }
-
+ 
     .myDropDownStyle {
         width: 90%;
         margin-left: 0;
         font-size: 1em;
     }
-
+ 
     .styled-textbox {
         max-width: 90%;
         margin-left: 0;
     }
-
+ 
     .gumb {
         width: 90%;
         margin-left: 0;
         font-size: 1.3em;
     }
-
+ 
     #Table2 {
         width: 100%;
         font-size: 1.1em;
     }
-
+ 
     #Table2 td,
     #Table2 th {
         padding: 8px 12px;
         font-size: 1.2em;
     }
-
+ 
     footer {
         height: auto;
         padding: 10px 0;
         font-size: 1.1em;
     }
 }
-
+ 
 @media screen and (max-width: 480px) {
     body {
         font-size: 14px;
     }
-
+ 
     header h1 {
         font-size: 1em;
     }
-
+ 
     h2, h3 {
         font-size: 1.1em;
     }
-
+ 
     h4, h5 {
         font-size: 3em;
     }
-
+ 
     .button {
         font-size: 1.2em;
         padding: 10px 20px;
     }
-
+ 
     .myLabelStyle {
         font-size: 1.1em;
         margin-left: 0;
     }
-
+ 
     .myDropDownStyle {
         width: 90%;
     }
-
+ 
     .styled-textbox {
         width: 90%;
         margin-left: 0;
     }
-
+ 
     #Table2 {
         font-size: 1em;
     }
-
+ 
     #Table2 td,
     #Table2 th {
         padding: 6px 10px;
         font-size: 1.1em;
     }
-
+ 
     footer {
         font-size: 1em;
     }

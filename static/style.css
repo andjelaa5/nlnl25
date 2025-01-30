@@ -1,393 +1,384 @@
+/* Resetovanje margina i paddinga */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Globalni stilovi */
 body {
-    background-color: white;
-}
- 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+    background-color: #ffe6ed;
+    font-family: 'Georgia', serif;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
- 
+
+/* CUPID'S CHOICE iznad header-a */
+.cupid-choice {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #88040c;
+    padding: 10px 0;
+}
+
+/* Header */
 header {
-    background-color: #e12d1f;
-    width: 100%;
-    height: 5vh;
+    background: white;
+    padding: 15px 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    flex-direction: column;
-}
- 
-    header h1 {
-        color: white;
-        text-align: center;
-        font-size: 1.3em;
-        font-family: 'Montserrat', sans-serif;
-        letter-spacing: 2px;
-        margin: 0;
-    }
- 
-.b {
-    background-color: white;
-    width: 100%;
-    height: 15vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 50px;
-    padding: 0;
- 
-}
- 
-h2, h3 {
-    color: #e12d1f;
-    text-align: center;
-    font-size: 1.3em;
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 2px;
-    margin: 0;
-}
- 
-h2 {
-    margin-top: 40px;
-    margin-bottom: 10px;
-}
- 
-h3 {
-    margin-top: 5px;
-}
- 
-h4 {
-    color: #e12d1f;
-    text-align: center;
-    font-size: 5em;
-    font-family: 'Dancing Script', cursive;
-    letter-spacing: 2px;
-    margin: 0;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
- 
-h5 {
-    color: #e12d1f;
-    text-align: center;
-    font-size: 5em;
-    font-family: 'Dancing Script', cursive;
-    letter-spacing: 2px;
-    margin: 0;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
- 
-.main1 {
-    flex: 1;
-    padding: 0px;
-    background-size: contain;
-    background-image: url("imgages/pokusaj.jpg");
-    background-size: auto;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
- 
-.main2 {
-    flex: 1;
-    padding: 0px;
-    background-size: contain;
-    background-color: #fee1dd;
-    background-size: auto;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
- 
-footer {
-    background-color: #e12d1f;
-    width: 100%;
-    height: 15vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: #333;
-    font-size: 1.2em;
-    padding: 0;
-}
- 
-    footer p {
-        margin: 0;
-        color: white;
-    }
- 
- 
- 
- 
-.a {
-    color: white;
-    text-align: center;
-    font-size: 1.2em;
-    font-family: 'Montserrat', sans-serif;
- 
-}
- 
-.button {
-    padding: 15px 30px;
-    font-size: 1.5em;
-    background-color: #e12d1f;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    position: absolute;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
- 
-    .styled-button:hover {
-        background-color: #d52a1b;
-        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
-    }
- 
-.myLabelStyle {
-    color: #e12d1f;
-    text-align: center;
-    font-size: 1.5em;
-    font-family: 'Lora', serif;
-    font-weight: 600;
-    margin-bottom: 10px;
-    margin-left: 50px;
-}
- 
-.myDropDownStyle {
-    padding: 12px 20px;
-    font-size: 1.1em;
-    font-family: 'Lora', serif;
-    color: #e12d1f;
-    border: 2px solid #e12d1f;
-    border-radius: 15px;
-    background-color: #fff;
-    color: #333;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 200px;
-    margin-left: 50px;
     position: relative;
 }
- 
-    .myDropDownStyle:hover {
-        border-color: #d52a1b;
-        background-color: #f7f7f7;
-    }
- 
-    .myDropDownStyle:focus {
-        border-color: #e12d1f;
-        background-color: #fff;
-    }
- 
-.styled-textbox {
+
+/* Rainbow border ispod headera */
+header::after {
+    content: "";
+    display: block;
+    height: 4px;
     width: 100%;
-    height: 1.5vh;
-    max-width: 400px;
-    padding: 10px 15px;
-    border-radius: 15px;
-    border: 2px solid #e12d1f;
-    font-size: 16px;
-    color: #333;
-    background-color: #fff;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    margin-left: 50px;
+    background: linear-gradient(90deg, 
+        red, orange, yellow, green, blue, indigo, violet
+    );
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
- 
-    .styled-textbox:focus {
-        border-color: #731815;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        outline: none;
-    }
- 
-    .styled-textbox::placeholder {
-        color: #aaa;
-    }
- 
-.gumb {
-    padding: 15px 30px;
-    font-size: 1.5em;
-    background-color: #e12d1f;
+
+/* NLNL25 pomeren skroz ulevo i bez okvira */
+.logo {
+    font-weight: bold;
+    margin-left: 0;
+    padding-left: 20px;
+    color: #88040c; 
+}
+
+/* Glavni sadržaj */
+.main1 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    min-height: calc(100vh - 200px); /* Ostavlja prostor za header i footer */
+    width: 100%; /* Osigurava da main zauzima celu širinu */
+}
+.main2 {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    min-height: calc(100vh - 200px); /* Ostavlja prostor za header i footer */
+    width: 100%; /* Osigurava da main zauzima celu širinu */
+}
+/* Kontejner za tekst i sliku */
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Stilovi za tekst */
+.text {
+    max-width: 50%;
+    text-align: left;
+    padding-left: 50px; /* Još više ulevo */
+}
+
+h1 {
+    font-size: 60px;  /* Povećan font */
+    color: #88040c;   /* Crvena nijansa */
+    margin-bottom: 25px; /* Veći razmak ispod */
+}
+
+p {
+    font-size: 26px;  /* Povećan font */
+    color: #88040c;   /* Crvena nijansa */
+    margin-bottom: 50px; /* Veći razmak pre dugmeta */
+}
+
+/* Dugme */
+.start-btn {
+    background: #88040c; /* Crvena nijansa */
     color: white;
+    padding: 18px 30px;
+    font-size: 22px;
+    border-radius: 20px;
     border: none;
-    border-radius: 25px;
     cursor: pointer;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    margin-bottom: 20px;
-    margin-left: 400px;
+    font-weight: bold;
 }
- 
-    .gumb:hover {
-        background-color: #d52a1b;
-        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
-    }
- 
-    .Table2 {
-        width: 80%;
-        margin: 0 auto;
-        border-collapse: collapse;
-        font-family: 'Lora', serif;
-        border: 2px solid #e12d1f;
-        position: relative; /* Omogućava pozicioniranje unutar roditelja */
-        top: 0;
-        margin-top: 20px; /* Razmak između .b i tabele */
-        max-height: 80vh; /* Ograničena visina tabele */
-        overflow-y: auto; 
-    }
- 
-    .td1,
-    .th1 {
-        padding: 10px 15px;
- 
-        text-align: center;
-        color: #e12d1f;
-        font-family: 'Lora', serif;
-        font-size: 1.5em;
-        background-color: #fee1dd;
-    }
- 
-    .th1 {
-        background-color: #e12d1f;
-        color: white;
-    }
- 
- 
- 
- 
- 
- 
- 
-@media screen and (max-width: 768px) {
-    header h1 {
-        font-size: 1.1em;
-    }
- 
-    .b {
-        background-color: white;
-        width: 100%;
-        height: auto; /* Dinamički se prilagođava sadržaju */
-        display: flex;
+
+.start-btn:hover {
+    background: #aa0510;
+}
+
+/* Slika */
+.image img {
+    max-width: 500px; /* Povećana slika */
+    border-radius: 20px; /* Još veće zaobljenje */
+    margin-left: -70px; /* Još bliže tekstu */
+}
+
+/* Footer */
+footer {
+    background-color: #88040c;  /* Pozadina */
+    color: #FFFFFF; /* Bela boja za tekst */
+    text-align: center;
+    padding: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 100%;
+    position: relative;
+    z-index: 10; /* Podižemo z-index */
+}
+
+footer p {
+    font-size: 22px; /* Povećan font za bolju čitljivost */
+    color: #FFFFFF; /* Bela boja teksta */
+    font-weight: bold; /* Podebljan tekst */
+    margin: 0; /* Da ne bude dodatnog razmaka oko teksta */
+    padding: 10px 0; /* Dodatni padding za razmak */
+}
+
+h5 {
+    font-size: 40px;  /* Slično kao h1, ali manji font */
+    color: #88040c;   /* Crvena nijansa */
+    text-align: center; /* Centriranje teksta */
+    margin-bottom: 25px; /* Veći razmak ispod */
+}
+
+
+.image1 {
+    text-align: center; /* Centriranje slike unutar kontejnera */
+}
+
+.image1 img {
+    max-width: 100%;  /* Slika se prilagođava širini ekrana */
+    height: auto;  /* Održavanje proporcija slike */
+    border-radius: 20px;  /* Zaobljeni ivice slike */
+    margin-top: 20px; /* Razmak između h5 i slike */
+}
+
+.Table2 {
+    width: 80%; /* Širina tabele */
+    margin: 20px auto; /* Centriranje tabele */
+    border-collapse: collapse; /* Spajanje ivica ćelija */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Blagi senke oko tabele */
+    background-color: #ffffff; /* Bela pozadina za tabelu */
+    table-layout: fixed; /* Ravnomeran raspored kolona */
+}
+
+.Table2 thead {
+    background-color: #88040c; /* Crvena pozadina za zaglavlje */
+    color: white; /* Bela boja teksta u zaglavlju */
+}
+
+.Table2 th, .Table2 td {
+    padding: 12px 20px; /* Unutrašnji razmaci unutar ćelija */
+    text-align: center; /* Poravnanje teksta centrirano */
+    border-bottom: 1px solid #ddd; /* Blagi razdvojeni horizontalni redovi */
+    width: 50%; /* Svaka kolona zauzima polovinu širine tabele */
+}
+
+.Table2 tbody tr:hover {
+    background-color: #f2f2f2; /* Pozadinska boja prilikom prelaska mišem */
+}
+
+.Table2 th {
+    font-size: 18px; /* Veći font za zaglavlje */
+    font-weight: bold; /* Podebljan tekst za zaglavlje */
+}
+
+.Table2 td {
+    font-size: 16px; /* Manji font za podatke */
+}
+
+
+
+/* ====== RESPONSIVE DESIGN ====== */
+
+/* Za ekrane manje od 768px (mobilni telefoni) */
+@media (max-width: 768px) {
+    .content {
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px; /* Razmak između header-a i .b */
-        margin-bottom: 20px; /* Smanjen razmak na dnu */
- 
+        text-align: center;
     }
- 
-    .button {
-        font-size: 1.3em;
-        padding: 12px 25px;
-        width: 90%;
+
+    .text {
+        max-width: 100%;
+        padding-left: 0;
     }
- 
-    .myLabelStyle {
-        margin-top: 20px;
-        font-size: 1.2em;
-        margin-left: 20px;
+
+    h1 {
+        font-size: 40px; /* Smanjen font za mobilni */
     }
- 
-    .myDropDownStyle {
-        width: 90%;
+
+    p {
+        font-size: 20px; /* Smanjen font za mobilni */
+    }
+
+    .start-btn {
+        font-size: 18px; /* Manje dugme za mobilni */
+        padding: 15px 25px;
+    }
+
+    .image img {
+        max-width: 350px; /* Smanjena slika za mobilni */
         margin-left: 0;
-        font-size: 1em;
+        margin-top: 20px; /* Razmak između dugmeta i slike */
     }
- 
-    .styled-textbox {
-        max-width: 90%;
-        margin-left: 0;
-    }
- 
-    .gumb {
-        width: 90%;
-        margin-left: 0;
-        font-size: 1.3em;
-    }
- 
-    #Table2 {
-        width: 100%;
-        font-size: 1.1em;
-    }
- 
-    #Table2 td,
-    #Table2 th {
-        padding: 8px 12px;
-        font-size: 1.2em;
-    }
- 
+
     footer {
-        height: auto;
-        padding: 10px 0;
-        font-size: 1.1em;
+        padding: 30px 20px; /* Dodatni padding za footer na mobilnom */
     }
+
+    h5 {
+        font-size: 30px;  /* Manji font za mobilni */
+        margin-bottom: 20px; /* Manji razmak ispod na mobilnom */
+    }
+
+    .image1 img {
+        max-width: 90%; /* Slika može zauzeti manje širine na mobilnim uređajima */
+        margin-top: 15px; /* Manji razmak na mobilnim uređajima */
+    }
+
+
+    .Table2 {
+        width: 100%; /* Tabela se širi na celu širinu ekrana na mobilnim uređajima */
+        font-size: 14px; /* Smanjivanje fonta za mobilne uređaje */
+    }
+
+    .Table2 th, .Table2 td {
+        padding: 10px; /* Manji razmaci u ćelijama */
+    }
+
 }
- 
-@media screen and (max-width: 480px) {
-    body {
+
+/* Stilovi za formu */
+form {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px; /* Maksimalna širina forme */
+    margin: 0 auto; /* Centriranje forme */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Stilovi za label-e i tekstualne inpute */
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #88040c; /* Crvena nijansa */
+    margin-bottom: 8px;
+    margin-top: 15px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Uključivanje padding-a u ukupnu širinu */
+}
+
+/* Stilovi za dugme submit */
+button[type="submit"] {
+    background-color: #88040c;
+    color: white;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #aa0510;
+}
+
+/* Stilovi za drop-down meni */
+select {
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* Stilovi za razmake između elemenata */
+form .myLabelStyle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #88040c;
+}
+
+form .myDropDownStyle {
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #88040c;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+footer p {
+    font-size: 22px;
+    color: #FFFFFF;
+    font-weight: bold;
+    margin: 0;
+    padding: 10px 0;
+}
+
+/* Responsivni dizajn za formu */
+@media (max-width: 768px) {
+    form {
+        padding: 20px;
+    }
+
+    button[type="submit"] {
+        font-size: 16px;
+        padding: 10px 15px;
+    }
+
+    input[type="text"], select {
         font-size: 14px;
-    }
- 
-    header h1 {
-        font-size: 1em;
-    }
- 
-    h2, h3 {
-        font-size: 1.1em;
-    }
- 
-    h4, h5 {
-        font-size: 3em;
-    }
- 
-    .button {
-        font-size: 1.2em;
-        padding: 10px 20px;
-    }
- 
-    .myLabelStyle {
-        font-size: 1.1em;
-        margin-left: 0;
-    }
- 
-    .myDropDownStyle {
-        width: 90%;
-    }
- 
-    .styled-textbox {
-        width: 90%;
-        margin-left: 0;
-    }
- 
-    #Table2 {
-        font-size: 1em;
-    }
- 
-    #Table2 td,
-    #Table2 th {
-        padding: 6px 10px;
-        font-size: 1.1em;
-    }
- 
-    footer {
-        font-size: 1em;
     }
 }

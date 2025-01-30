@@ -6,8 +6,8 @@ import os
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS
 
-# Putanja do CSV fajla (fajl je sada u folderu static/csv)
-csv_file = os.path.join('static', 'csv', 'podaci.csv')
+# Putanja do CSV fajla u static folderu
+csv_file = os.path.join(app.static_folder, 'podaci.csv')
 
 # Funkcija za čitanje poslednjeg broja korisnika iz CSV fajla
 def get_last_user_number():
@@ -26,11 +26,6 @@ def get_last_user_number():
 
 # Funkcija za upisivanje podataka u CSV fajl
 def write_to_csv(data):
-    # Ako folder ne postoji, kreiraj ga
-    if not os.path.exists(os.path.join('static', 'csv')):
-        os.makedirs(os.path.join('static', 'csv'))
-
-    # Upisivanje podataka u CSV fajl
     with open(csv_file, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(data)  # Dodaj podatke u fajl
@@ -70,7 +65,7 @@ def save_to_csv():
     pesma = data['pesma']
     zauzet = data['zauzet']
     par = data['zauzet']
-
+    
     # Pripremi podatke koji se upisuju u CSV (uključujući broj korisnika)
     user_data = [user_counter, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
 
@@ -83,10 +78,14 @@ def save_to_csv():
         "broj": user_counter
     })
 
-# Ruta za prikazivanje svih podataka u CSV fajlu (JSON format)
+# Ruta za prikazivanje HTML forme (form3)
 @app.route('/form3')
 def form3():
-    # Funkcija za čitanje svih podataka iz CSV fajla
+    return render_template('form3.html')
+
+# Ruta za dobijanje podataka u JSON formatu (form3 podaci)
+@app.route('/get_form3_data')
+def form3_data():
     data = []
     try:
         with open(csv_file, mode='r', encoding='utf-8') as file:
@@ -96,9 +95,8 @@ def form3():
     except FileNotFoundError:
         pass  # Ako fajl nije pronađen, vraćamo praznu listu
 
-    # Vraćanje stranice sa podacima (preko render_template)
-    return render_template('form3.html', lista=data)
-
+    # Vraćanje podataka u JSON formatu
+    return jsonify({"lista": data})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)

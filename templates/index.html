@@ -5,38 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Matchmaking</title>
     <link rel="stylesheet" href="static/style.css">
-    <script type="text/javascript">
+  <script type="text/javascript">
+    function goToForm() {
+        window.location.href = "/form";  // Preusmeravanje na /form rutu
+    }
 
-        function goToForm() {
-    window.location.href = "/form";  // Preusmeravanje na /form rutu
-}
+    function goToForm1() {
+        window.location.href = "/form3"; // Preusmeravanje na form3.html
+    }
 
+    // Na početku, sakrij dugme
+    window.onload = function() {
+        // Sakrij button2 pri učitavanju stranice
+        document.getElementById('button2').style.display = 'none';
 
-    
-        function goToForm1() {
-            window.location.href = "/form3"; // Preusmeravanje na form3.html
+        // Postavi datum i vreme do kada treba da bude skriveno dugme
+        const targetDate = new Date('2025-01-30T21:52:00');  // Na primer, 31. januar 2025.
+
+        function checkTime() {
+            const currentDate = new Date();  // Dohvata trenutni datum i vreme
+            if (currentDate >= targetDate) {
+                // Ako je trenutni datum veći ili jednak ciljanom datumu, prikaži dugme2
+                document.getElementById('button2').style.display = 'block';
+                document.getElementById('button1').style.display = 'none';  // Sakrij button1
+                clearInterval(interval);  // Zaustavi proveru
+            }
         }
 
-        // Na početku, sakrij dugme
-        window.onload = function() {
-            document.getElementById('button2').style.display = 'none';
-        
-            // Postavi datum i vreme do kada treba da bude skriveno dugme
-            const targetDate = new Date('2025-01-30T21:42:00');  // Na primer, 31. januar 2025.
+        // Proveravaj svake sekunde
+        const interval = setInterval(checkTime, 100);
+    };
+</script>
 
-            function checkTime() {
-                const currentDate = new Date();  // Dohvata trenutni datum i vreme
-                if (currentDate >= targetDate) {
-                    // Ako je trenutni datum veći ili jednak ciljanom datumu, prikaži dugme
-                    document.getElementById('button2').style.display = 'block';
-                    clearInterval(interval);  // Zaustavi proveru
-                }
-            }
-
-            // Proveravaj svake sekunde
-            const interval = setInterval(checkTime, 100);
-        };
-    </script>
 </head>
 <body>
 

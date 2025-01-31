@@ -1,34 +1,21 @@
 import csv
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
+from pymongo import MongoClient
+import pandas as pd
+import json
+from bson import json_util 
 import os
-
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS
-
-# Putanja do CSV fajla u static folderu
-csv_file = os.path.join(app.static_folder, 'podaci.csv')
-
-# Funkcija za čitanje poslednjeg broja korisnika iz CSV fajla
-def get_last_user_number():
-    try:
-        with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            rows = list(reader)
-            if rows:
-                # Poslednji red (korisnik) u fajlu ima broj korisnika na prvom mestu
-                last_user = rows[-1]
-                return int(last_user[0])  # Vrati broj korisnika
-            else:
-                return 0  # Ako CSV fajl je prazan, vrati 0
-    except FileNotFoundError:
-        return 0  # Ako fajl ne postoji, vraćamo 0
-
-# Funkcija za upisivanje podataka u CSV fajl
-def write_to_csv(data):
-    with open(csv_file, mode='a', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(data)  # Dodaj podatke u fajl
+client = MongoClient(
+    "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
+    tlsAllowInvalidCertificates=True  # Onemogućava proveru SSL sertifikata
+)
+db = client['test']
+collection = db['users']  # Ime kolekcije
+#result = collection.delete_many({}) 
+# Putanja do CSV fajla (proveri da li je fajl na pravoj lokaciji)
 
 # Ruta za serviranje HTML forme
 @app.route('/')
@@ -39,19 +26,21 @@ def index():
 def form():
     return render_template('form.html')
 
+
 @app.route('/form2')
 def form2():
     return render_template('form2.html')
-
 # Ruta za primanje podataka sa forme i upisivanje u CSV
-@app.route('/save_to_csv', methods=['POST'])
-def save_to_csv():
-    # Uzmi poslednji broj korisnika iz CSV fajla
-    user_counter = get_last_user_number() + 1  # Inkrementiraj broj korisnika
-
+@app.route('/submit', methods=['POST'])
+def submit_form():
     # Dobij podatke sa forme
     data = request.get_json()
-
+    # Dobija podatke iz JS-a
+    if not data:
+        return jsonify({"error": "No data received"}), 400
+    gas = list(collection.find())
+    # Ubacivanje u MongoDB
+    l = len(gas) + 1
     ime = data['ime']
     prezime = data['prezime']
     pol = data['pol']
@@ -65,38 +54,23 @@ def save_to_csv():
     pesma = data['pesma']
     zauzet = data['zauzet']
     par = data['zauzet']
-    
-    # Pripremi podatke koji se upisuju u CSV (uključujući broj korisnika)
-    user_data = [user_counter, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
-
-    # Upisivanje podataka u CSV fajl
-    write_to_csv(user_data)
-
-    # Vraćanje odgovora sa dodeljenim brojem korisnika
+    user_data = [l, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
+    data["id"] = l
+    collection.insert_one(data)
     return jsonify({
         "message": "Podaci su uspešno sačuvani!",
-        "broj": user_counter
+        "broj": l
     })
 
-# Ruta za prikazivanje HTML forme (form3)
+# Ruta za prikazivanje svih podataka u CSV fajlu (JSON format)
 @app.route('/form3')
 def form3():
     return render_template('form3.html')
 
-# Ruta za dobijanje podataka u JSON formatu (form3 podaci)
 @app.route('/get_form3_data')
-def form3_data():
-    data = []
-    try:
-        with open(csv_file, mode='r', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                data.append(row)
-    except FileNotFoundError:
-        pass  # Ako fajl nije pronađen, vraćamo praznu listu
-
-    # Vraćanje podataka u JSON formatu
-    return jsonify({"lista": data})
+def get_form3_data():
+    gas = list(collection.find())
+    return jsonify({"lista": json.loads(json_util.dumps(gas))})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)), debug=True)

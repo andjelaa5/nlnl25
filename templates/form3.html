@@ -27,8 +27,7 @@
            
         </div>
 
-        <!-- Dodan div sa ID-jem formContainer -->
-        <div id="formContainer"></div>
+       
 
         <ul id="userList"></ul> 
         <table id="dataTable" class="Table2">
@@ -52,9 +51,7 @@ window.onload = function() {
             }
             return response.text();  // Učitavanje HTML sadržaja
         })
-        .then(html => {
-            document.getElementById('formContainer').innerHTML = html; // Ubaci HTML u div
-        })
+       
         .catch(error => console.error("Greška pri učitavanju forme:", error));
 
     fetch('/get_form3_data')   // Ova ruta sada vraća JSON podatke

@@ -26,22 +26,18 @@
             </div>
            
         </div>
-
-       
-
         <ul id="userList"></ul> 
-        <table id="dataTable" class="Table2">
-            <thead class="th1">
+        <table id="dataTable" class = "Table2">
+            <thead class = "th1">
                 <tr>
                     <th>Par 1</th>
                     <th>Par 2</th>
                 </tr>
             </thead>
-            <tbody class="td1">
+            <tbody class = "td1">
                 <!-- Podaci će biti dodani ovde pomoću JavaScript-a -->
             </tbody>
         </table>
-
        <script>
 window.onload = function() {
     fetch('/form3')
@@ -51,9 +47,12 @@ window.onload = function() {
             }
             return response.text();  // Učitavanje HTML sadržaja
         })
-       
+        .then(html => {
+            document.getElementById('formContainer').innerHTML = html; // Ubaci HTML u div
+        })
         .catch(error => console.error("Greška pri učitavanju forme:", error));
-
+    // Učitaj HTML formu na /form3_html (a ne /form3)
+    // Učitaj podatke iz CSV fajla preko JSON rute
     fetch('/get_form3_data')   // Ova ruta sada vraća JSON podatke
         .then(response => response.json())  // Pretvori JSON odgovor u objekat
         .then(data => {
@@ -61,9 +60,7 @@ window.onload = function() {
             console.log(userList);
             const item = userList.map(user => Object.values(user));
             console.log(item);
-
-            const userListElement = document.getElementById('userList'); // Dodato
-
+            // Prođi kroz sve korisnike i prikaži ih u listi
             if (userList && userList.length > 0) {
                 let br = 0;
                 for (let k = 7; k >= 0; k--) {
@@ -74,7 +71,7 @@ window.onload = function() {
                             br = 0;
                             if (parseInt(item[i][12]) == 0 && parseInt(item[j][12]) == 0 && 
                                 JSON.stringify(item[i][7]) == JSON.stringify(item[j][13]) && 
-                                JSON.stringify(item[i][13]) == JSON.stringify(item[j][7])) {
+                                JSON.stringify(item[j][13]) == JSON.stringify(item[j][7])) {
                                 if (JSON.stringify([i][1]) == JSON.stringify([j][1])) br++;
                                 if (JSON.stringify([i][6]) == JSON.stringify([j][6])) br++;
                                 if (JSON.stringify([i][14]) == JSON.stringify([j][14])) br++;
@@ -95,27 +92,33 @@ window.onload = function() {
 
                 let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
                 for (let i = 0; i < item.length; i++) {
+                    // Ako je item[i][13] 0, preskočite taj red
                     if (item[i][12] == 0) continue;
 
+                    // Kreiraj novi red za tabelu
                     let row = document.createElement("tr");
 
+                    // Kreiraj ćeliju za item[i][0] (prvi element)
                     let cell1 = document.createElement("td");
                     cell1.textContent = item[i][2];
                     row.appendChild(cell1);
 
+                    // Kreiraj ćeliju za item[i][14] (petnaesti element)
                     let cell2 = document.createElement("td");
                     cell2.textContent = item[i][4];
                     row.appendChild(cell2);
 
+                    // Dodajte red u telo tabele
                     tableBody.appendChild(row);
 
+                    // Postavite item[i][13] na 0 (kao u originalnom kodu)
                     item[i][12] = 0;
                     item[parseInt(item[i][4]) - 1][12] = 0;
                 }
             } else {
                 const noDataMessage = document.createElement('li');
                 noDataMessage.textContent = 'Nema podataka za prikazivanje.';
-                userListElement.appendChild(noDataMessage); // Sada je definisano i koristi se ispravno
+                userListElement.appendChild(noDataMessage);
             }
 
         })

@@ -170,7 +170,8 @@
         .then(data => {
 
             // Spremi broj korisnika u localStorage
-            localStorage.setItem("userNumber", data.broj); // Čuva broj korisnika u localStorage
+            localStorage.setItem("userNumber", data.broj);
+            alert("Vaš broj je: " + userNumber);// Čuva broj korisnika u localStorage
             window.location.href = "/form2"; // Preusmeravanje na form2.html
         })
         .catch(error => {

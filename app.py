@@ -23,7 +23,7 @@ client = MongoClient(
 def ping_mongo():
     while True:
         try:
-            client.admin.command('ping')  # Ping za proveru konekcije
+           client.admin.command('ping')  # Ping za proveru konekcije
            console.log("Konekcija je aktivna.")
         except Exception as e:
             console.log("Greška sa konekcijom:", e)

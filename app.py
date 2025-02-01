@@ -37,7 +37,7 @@ threading.Thread(target=ping_mongo, daemon=True).start()
 
 db = client['test']
 collection = db['users']  # Ime kolekcije
-#result = collection.delete_many({}) 
+
 # Putanja do CSV fajla (proveri da li je fajl na pravoj lokaciji)
 
 # Ruta za serviranje HTML forme

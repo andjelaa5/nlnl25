@@ -11,7 +11,7 @@ CORS(app)  # Omogućava CORS
 
 client = MongoClient(
     "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
-    tlsAllowInvalidCertificates=True  # Onemogućava proveru SSL sertifikata
+    tlsAllowInvalidCertificates=True,  # Onemogućava proveru SSL sertifikata
      tlsAllowInvalidCertificates=True,
     serverSelectionTimeoutMS=5000,  # Timeout od 5 sekundi za proveru konekcije
     socketTimeoutMS=10000,          # Timeout od 10 sekundi za konekciju

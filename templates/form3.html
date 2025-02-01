@@ -71,7 +71,7 @@ window.onload = function() {
                             br = 0;
                             if (parseInt(item[i][12]) == 0 && parseInt(item[j][12]) == 0 && 
                                 JSON.stringify(item[i][7]) == JSON.stringify(item[j][13]) && 
-                                JSON.stringify(item[j][13]) == JSON.stringify(item[j][7])) {
+                                JSON.stringify(item[i][13]) == JSON.stringify(item[j][7])) {
                                 if (JSON.stringify([i][1]) == JSON.stringify([j][1])) br++;
                                 if (JSON.stringify([i][6]) == JSON.stringify([j][6])) br++;
                                 if (JSON.stringify([i][14]) == JSON.stringify([j][14])) br++;

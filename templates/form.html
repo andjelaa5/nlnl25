@@ -169,10 +169,11 @@
         .then(response => response.json())
         .then(data => {
 
-            // Spremi broj korisnika u localStorage
-            localStorage.setItem("userNumber", data.broj);
-            alert("Vaš broj je: " + userNumber);// Čuva broj korisnika u localStorage
-            window.location.href = "/form2"; // Preusmeravanje na form2.html
+             localStorage.setItem("userNumber", data.broj); // Čuva broj korisnika u localStorage
+
+            // Učitaj broj korisnika iz localStorage i prikaži ga u alertu
+            const userNumber = localStorage.getItem("userNumber");
+            alert("Vaš broj je: " + userNumber);
         })
         .catch(error => {
             console.error("Greška:", error);

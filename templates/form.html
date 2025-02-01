@@ -154,23 +154,29 @@
             zauzet: zauzet,
             par: par
         };
-    
+        
+  const controller = new AbortController();
+const timeout = setTimeout(() => controller.abort(), 5000);
+        
         // Pošaljite podatke serveru (putem fetch-a)
         fetch("https://nlnl3.onrender.com/submit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+              signal: controller.signal
         })
         .then(response => response.json())
         .then(data => {
+               clearTimeout(timeout);
             // Spremi broj korisnika u localStorage
             localStorage.setItem("userNumber", data.broj); // Čuva broj korisnika u localStorage
             window.location.href = "/form2"; // Preusmeravanje na form2.html
         })
         .catch(error => {
             console.error("Greška:", error);
+            console.log("Došlo je do greške. Pokušajte ponovo.");
         });
     });
 </script>

@@ -47,9 +47,7 @@ window.onload = function() {
             }
             return response.text();  // Učitavanje HTML sadržaja
         })
-        .then(html => {
-            document.getElementById('formContainer').innerHTML = html; // Ubaci HTML u div
-        })
+     
         .catch(error => console.error("Greška pri učitavanju forme:", error));
     // Učitaj HTML formu na /form3_html (a ne /form3)
     // Učitaj podatke iz CSV fajla preko JSON rute

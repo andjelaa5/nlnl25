@@ -14,7 +14,9 @@ CORS(app)  # Omogućava CORS
 
 client = MongoClient(
     "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
-    tlsAllowInvalidCertificates=True
+    tlsAllowInvalidCertificates=True,
+    maxPoolSize=100,
+    minPoolSize=10
     #serverSelectionTimeoutMS=5000,  
     #socketTimeoutMS=10000,          
     #maxPoolSize=20,                  

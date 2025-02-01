@@ -155,8 +155,7 @@
             par: par
         };
         
-  const controller = new AbortController();
-const timeout = setTimeout(() => controller.abort(), 5000);
+
         
         // Pošaljite podatke serveru (putem fetch-a)
         fetch("https://nlnl3.onrender.com/submit", {
@@ -164,8 +163,8 @@ const timeout = setTimeout(() => controller.abort(), 5000);
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
-              signal: controller.signal
+            body: JSON.stringify(formData)
+            
         })
         .then(response => response.json())
         .then(data => {
@@ -176,7 +175,7 @@ const timeout = setTimeout(() => controller.abort(), 5000);
         })
         .catch(error => {
             console.error("Greška:", error);
-            console.log("Došlo je do greške. Pokušajte ponovo.");
+           
         });
     });
 </script>

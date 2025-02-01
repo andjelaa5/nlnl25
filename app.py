@@ -6,6 +6,9 @@ import pandas as pd
 import json
 from bson import json_util 
 import os
+import threading
+import time
+
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS
 
@@ -17,6 +20,17 @@ client = MongoClient(
     maxPoolSize=20 
 )
 
+def ping_mongo():
+    while True:
+        try:
+            client.admin.command('ping')  # Ping za proveru konekcije
+           print("Konekcija je aktivna.")
+        except Exception as e:
+            print("Greška sa konekcijom:", e)
+        time.sleep(60)  # Ping svakih 5 minuta
+
+# Pokreće ping u pozadini
+threading.Thread(target=ping_mongo, daemon=True).start()
 
 db = client['test']
 collection = db['users']  # Ime kolekcije

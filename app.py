@@ -8,6 +8,7 @@ from bson import json_util
 import os
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS
+
 client = MongoClient(
     "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
     tlsAllowInvalidCertificates=True  # Onemogućava proveru SSL sertifikata
@@ -16,6 +17,8 @@ client = MongoClient(
     socketTimeoutMS=10000,          # Timeout od 10 sekundi za konekciju
     maxPoolSize=20 
 )
+
+
 db = client['test']
 collection = db['users']  # Ime kolekcije
 #result = collection.delete_many({}) 
@@ -75,6 +78,6 @@ def form3():
 def get_form3_data():
     gas = list(collection.find())
     return jsonify({"lista": json.loads(json_util.dumps(gas))})
-
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))

@@ -24,9 +24,9 @@ def ping_mongo():
     while True:
         try:
             client.admin.command('ping')  # Ping za proveru konekcije
-           print("Konekcija je aktivna.")
+           console.log("Konekcija je aktivna.")
         except Exception as e:
-            print("Greška sa konekcijom:", e)
+            console.log("Greška sa konekcijom:", e)
         time.sleep(60)  # Ping svakih 5 minuta
 
 # Pokreće ping u pozadini

@@ -168,7 +168,8 @@
                     body: JSON.stringify(formData)
                 })
                 .then(response => response.json())
-                .then(data => {
+                .then(data => { 
+                   Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
                     if (data.message) {
                         console.log(data.message);
                     }

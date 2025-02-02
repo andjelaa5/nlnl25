@@ -115,64 +115,74 @@
     </footer>
 
     
-  <script>
-       document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Sprečava reload stranice
+ 
+    <script>
+    document.getElementById("userForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Sprečava da se forma pošalje na default način
+    
+        // Uzmi vrednosti iz forme
+        const ime = document.getElementById("ime").value;
+        const prezime = document.getElementById("prezime").value;
+        const pol = document.getElementById("pol").value;
+        const zeljenipol = document.getElementById("zeljenipol").value;
+        const tiplicnosti = document.getElementById("tiplicnosti").value;
+        const roleModel = document.getElementById("roleModel").value;
+        const zivotnicilj = document.getElementById("zivotnicilj").value;
+        const zanr = document.getElementById("zanr").value;
+        const pice = document.getElementById("pice").value;
+        const hobi = document.getElementById("hobi").value;
+        const pesma = document.getElementById("pesma").value;
+        const zauzet = 0;
+        const par = 0;
 
-    const formData = {
-        ime: document.getElementById("ime").value,
-        prezime: document.getElementById("prezime").value,
-        pol: document.getElementById("pol").value,
-        zeljenipol: document.getElementById("zeljenipol").value,
-        tiplicnosti: document.getElementById("tiplicnosti").value,
-        roleModel: document.getElementById("roleModel").value,
-        zauzet: 0,
-        par: 0
-    };
-
-    if (Object.values(formData).includes("")) {
-        Swal.fire("⚠️ Greška", "Popuni sva polja pre slanja.", "warning");
-        return;
-    }
-
-    // Pokušaj slanja sa dodatnim logovanjem
-    const sendData = async (retryCount = 0) => {
-        try {
-            console.log("📤 Šaljem podatke:", formData);
-
-            const response = await fetch("https://nlnl3.onrender.com/submit", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-
-            console.log("🔄 Status odgovora:", response.status);
-
-            if (!response.ok) {
-                const errorText = await response.text(); // Prikazuje detalje greške
-                console.error("❌ Neuspešan odgovor:", errorText);
-                throw new Error(`Server error: ${errorText}`);
-            }
-
-            const data = await response.json();
-            console.log("✅ Server vratio:", data);
-
-            Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
-            document.getElementById("userForm").reset();
-        } catch (error) {
-            console.error("⚠️ Greška prilikom slanja:", error.message);
-            if (retryCount < 3) {
-                console.warn(`⏳ Pokušavam ponovo... (${retryCount + 1})`);
-                setTimeout(() => sendData(retryCount + 1), 2000);
-            } else {
-                Swal.fire("❌ Neuspeh", `Došlo je do greške: ${error.message}`, "error");
-            }
+        // Proveri da li su podaci uneti
+        if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
+            alert("Molim Vas da popunite sva polja");
+            return;
         }
-    };
+    
+        // Pripremi podatke za slanje
+        const formData = {
+            ime: ime,
+            prezime: prezime,
+            pol: pol,
+            zeljenipol: zeljenipol,
+            tiplicnosti: tiplicnosti,
+            roleModel: roleModel,
+            zivotnicilj: zivotnicilj,
+            zanr: zanr,
+            pice: pice,
+            hobi: hobi,
+            pesma: pesma,
+            zauzet: zauzet,
+            par: par
+        };
 
-    sendData();
-});
+            function sendData() {
+                fetch("https://nlnl3.onrender.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Connection": "keep-alive"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.log(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Greška:", error);
+                    // Retry logic: Ponovo pokušaj
+                    setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
+                });
+            }
 
+            // Prvi pokušaj slanja podataka
+            sendData();
+        });
     </script>
 
 </body>

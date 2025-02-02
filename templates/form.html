@@ -169,11 +169,7 @@
         .then(response => response.json())
         .then(data => {
 
-             localStorage.setItem("userNumber", data.broj); // Čuva broj korisnika u localStorage
-
-            // Učitaj broj korisnika iz localStorage i prikaži ga u alertu
-            const userNumber = localStorage.getItem("userNumber");
-            alert("Vaš broj je: " + userNumber);
+             
         })
         .catch(error => {
             console.error("Greška:", error);

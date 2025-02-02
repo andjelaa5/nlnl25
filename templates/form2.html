@@ -26,7 +26,7 @@
             </div>
            
         </div>
-        <h5>Vaš broj je: <span id="userNumber"></span></h5>
+        <h5>Vaš odgovor je zabeležen!</h5>
         <div class="image1">
             <img src="static/imgages/cupid.jpg" alt="Cupid's Party">
         </div>
@@ -37,18 +37,6 @@
         <p>NAPRAVLJENO S LJUBAVLJU ZA NLNL25 &copy;</p>
     </footer>
 
-    <script>
-        // Pokušaj preuzimanja broja korisnika iz localStorage-a
-        const userNumber = localStorage.getItem('userNumber');
-        
-        if (userNumber) {
-            // Ako postoji broj, prikazujemo ga na stranici
-            document.getElementById('userNumber').textContent = userNumber;
-        } else {
-            // Ako broj ne postoji u localStorage, postavljamo podrazumevanu vrednost
-            document.getElementById('userNumber').textContent = "N/A";
-        }
-    </script>
 
 </body>
 </html>

@@ -156,7 +156,17 @@
             zauzet: zauzet,
             par: par
         };
-
+        
+Swal.fire({
+    title: 'Molim vas ne zatvrajte stranicu, obrada je u toku',
+    text: 'ako je baza opterecena slanje moze potrajati 15s, sacekajte potvrdu o slanju',
+    icon: 'info',
+    allowOutsideClick: false,  // Sprečava zatvaranje
+    showConfirmButton: false,  // Ne prikazuje dugme za potvrdu
+    didOpen: () => {
+        Swal.showLoading();  // Prikazuje loading animaciju
+    }
+})
         function sendData() {
             fetch("https://nlnl3.onrender.com/submit", {
                 method: "POST",
@@ -172,7 +182,7 @@
             })
             .then(data => {
                 console.log("Data received:", data);
-                Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
+               window.location.href = "/form2"; 
             })
             .catch(error => {
                 console.error("Greška:", error);

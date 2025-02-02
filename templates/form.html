@@ -112,8 +112,7 @@
     <footer>
         <p>NAPRAVLJENO S LJUBAVLJU ZA NLNL25 &copy;</p>
     </footer>
-    <script>
-
+ <script>
 document.getElementById("userForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Sprečava da se forma pošalje na default način
 
@@ -138,6 +137,9 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         return;
     }
 
+    // Prikazi alert pre slanja podataka
+     window.location.href = "/form2";
+
     // Pripremi podatke za slanje
     const formData = {
         ime,
@@ -157,7 +159,6 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
 
     // Pošaljite podatke serveru (putem fetch-a)
     fetch("https://nlnl3.onrender.com/submit", {
-        alert("Odgovor je zabelezen");
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -172,13 +173,13 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
     })
     .catch(error => {
         console.error("Greška:", error);
-        alert("Došlo je do greške prilikom slanja podataka.");
     })
     .finally(() => {
         window.location.href = "/form2";
     });
 });
 </script>
+
 
 </body>
 </html>

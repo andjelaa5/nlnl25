@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from pymongo import MongoClient
 import threading
@@ -40,18 +40,13 @@ def index():
 def form():
     return render_template('form.html')
 
-    
-
 @app.route('/form2')
 def form2():
     return render_template('form2.html')
 
-    
 @app.route('/form3')
 def form3():
     return render_template('form3.html')
-
-
 
 # Ruta za primanje podataka sa forme i upisivanje u MongoDB
 @app.route('/submit', methods=['POST'])
@@ -61,8 +56,8 @@ def submit_form():
         if not data:
             return jsonify({"error": "Nisu primljeni podaci."}), 400
 
-        # Automatsko generisanje ID bez učitavanja cele kolekcije
-        last_entry = collection.find_one(sort=[("_id", -1)])
+        # Automatsko generisanje ID
+        last_entry = collection.find_one(sort=[("id", -1)])
         new_id = last_entry["id"] + 1 if last_entry and "id" in last_entry else 1
         data["id"] = new_id
 
@@ -78,7 +73,7 @@ def submit_form():
         print("❌ Server Error:", e)
         return jsonify({"error": "Došlo je do greške na serveru."}), 500
 
-# Ruta za prikazivanje svih podataka u JSON formatu (ako trebaš za testiranje)
+# Ruta za prikazivanje svih podataka u JSON formatu
 @app.route('/get_data', methods=['GET'])
 def get_data():
     try:

@@ -157,6 +157,7 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
 
     // Pošaljite podatke serveru (putem fetch-a)
     fetch("https://nlnl3.onrender.com/submit", {
+        alert("Odgovor je zabelezen");
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -113,71 +113,94 @@
     <footer>
         <p>NAPRAVLJENO S LJUBAVLJU ZA NLNL25 &copy;</p>
     </footer>
- <script>
-document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Sprečava da se forma pošalje na default način
+ <!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Matchmaking - Form</title>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
 
-    // Uzmi vrednosti iz forme
-    const ime = document.getElementById("ime").value;
-    const prezime = document.getElementById("prezime").value;
-    const pol = document.getElementById("pol").value;
-    const zeljenipol = document.getElementById("zeljenipol").value;
-    const tiplicnosti = document.getElementById("tiplicnosti").value;
-    const roleModel = document.getElementById("roleModel").value;
-    const zivotnicilj = document.getElementById("zivotnicilj").value;
-    const zanr = document.getElementById("zanr").value;
-    const pice = document.getElementById("pice").value;
-    const hobi = document.getElementById("hobi").value;
-    const pesma = document.getElementById("pesma").value;
-    const zauzet = 0;
-    const par = 0;
+    <div class="cupid-choice">CUPID'S CHOICE</div>
 
-    // Proveri da li su podaci uneti
-    if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
-        alert("Molim Vas da popunite sva polja");
-        return;
-    }
+    <header>
+        <div class="logo">NLNL25</div>
+    </header>
 
-    // Prikazi alert pre slanja podataka
-     Swal.fire('Uspešno poslato!', 'odgovor je zabelezen', 'success');
+    <main class="main2">
+        <div class="content"></div>
 
-    // Pripremi podatke za slanje
-    const formData = {
-        ime,
-        prezime,
-        pol,
-        zeljenipol,
-        tiplicnosti,
-        roleModel,
-        zivotnicilj,
-        zanr,
-        pice,
-        hobi,
-        pesma,
-        zauzet,
-        par
-    };
+        <form id="userForm">
+            <!-- Sva polja forme -->
+            <label for="ime" class="myLabelStyle">Ime:</label><br>
+            <input type="text" id="ime" name="ime" required class="styled-textbox"><br><br>
+            <!-- Ostatak forme -->
+            <button type="submit" class="gumb">Submit</button>
+        </form>
+    </main>
 
-    // Pošaljite podatke serveru (putem fetch-a)
-    fetch("https://nlnl3.onrender.com/submit", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Greška prilikom slanja podataka.");
-        }
-        return response.json();
-    })
-    .catch(error => {
-        console.error("Greška:", error);
-    })
+    <footer>
+        <p>NAPRAVLJENO S LJUBAVLJU ZA NLNL25 &copy;</p>
+    </footer>
     
-});
-</script>
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Sprečava da se forma pošalje na default način
+
+            // Uzmi vrednosti iz forme
+            const ime = document.getElementById("ime").value;
+            // Ostatak podataka iz forme
+
+            // Proveri da li su podaci uneti
+            if (!ime) {
+                alert("Molim Vas da popunite sva polja");
+                return;
+            }
+
+            // Prikazi alert pre slanja podataka
+            Swal.fire('Uspešno poslato!', 'odgovor je zabeležen', 'success');
+
+            // Pripremi podatke za slanje
+            const formData = {
+                ime,
+                // Ostali podaci
+                zauzet: 0,
+                par: 0
+            };
+
+            function sendData() {
+                fetch("https://nlnl3.onrender.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Connection": "keep-alive"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.log(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Greška:", error);
+                    // Retry logic: Ponovo pokušaj
+                    setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
+                });
+            }
+
+            // Prvi pokušaj slanja podataka
+            sendData();
+        });
+    </script>
+
+</body>
+</html>
+
 
 
 </body>

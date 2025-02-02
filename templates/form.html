@@ -112,78 +112,72 @@
     <footer>
         <p>NAPRAVLJENO S LJUBAVLJU ZA NLNL25 &copy;</p>
     </footer>
+    <script>
 
-<script>
-    document.getElementById("userForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Sprečava da se forma pošalje na default način
-    
-        // Uzmi vrednosti iz forme
-        const ime = document.getElementById("ime").value;
-        const prezime = document.getElementById("prezime").value;
-        const pol = document.getElementById("pol").value;
-        const zeljenipol = document.getElementById("zeljenipol").value;
-        const tiplicnosti = document.getElementById("tiplicnosti").value;
-        const roleModel = document.getElementById("roleModel").value;
-        const zivotnicilj = document.getElementById("zivotnicilj").value;
-        const zanr = document.getElementById("zanr").value;
-        const pice = document.getElementById("pice").value;
-        const hobi = document.getElementById("hobi").value;
-        const pesma = document.getElementById("pesma").value;
-        const zauzet = 0;
-        const par = 0;
+document.getElementById("userForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Sprečava da se forma pošalje na default način
 
-        // Proveri da li su podaci uneti
-        if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
-            alert("Molim Vas da popunite sva polja");
-            return;
+    // Uzmi vrednosti iz forme
+    const ime = document.getElementById("ime").value;
+    const prezime = document.getElementById("prezime").value;
+    const pol = document.getElementById("pol").value;
+    const zeljenipol = document.getElementById("zeljenipol").value;
+    const tiplicnosti = document.getElementById("tiplicnosti").value;
+    const roleModel = document.getElementById("roleModel").value;
+    const zivotnicilj = document.getElementById("zivotnicilj").value;
+    const zanr = document.getElementById("zanr").value;
+    const pice = document.getElementById("pice").value;
+    const hobi = document.getElementById("hobi").value;
+    const pesma = document.getElementById("pesma").value;
+    const zauzet = 0;
+    const par = 0;
+
+    // Proveri da li su podaci uneti
+    if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
+        alert("Molim Vas da popunite sva polja");
+        return;
+    }
+
+    // Pripremi podatke za slanje
+    const formData = {
+        ime,
+        prezime,
+        pol,
+        zeljenipol,
+        tiplicnosti,
+        roleModel,
+        zivotnicilj,
+        zanr,
+        pice,
+        hobi,
+        pesma,
+        zauzet,
+        par
+    };
+
+    // Pošaljite podatke serveru (putem fetch-a)
+    fetch("https://nlnl3.onrender.com/submit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Greška prilikom slanja podataka.");
         }
-    
-        // Pripremi podatke za slanje
-        const formData = {
-            ime: ime,
-            prezime: prezime,
-            pol: pol,
-            zeljenipol: zeljenipol,
-            tiplicnosti: tiplicnosti,
-            roleModel: roleModel,
-            zivotnicilj: zivotnicilj,
-            zanr: zanr,
-            pice: pice,
-            hobi: hobi,
-            pesma: pesma,
-            zauzet: zauzet,
-            par: par
-        };
-        
-
-        
-        // Pošaljite podatke serveru (putem fetch-a)
-        fetch("https://nlnl3.onrender.com/submit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData)
-            
-        })
-       
-   
-           
-           .then(() => {
-           window.location.href = "/form2";
-         
-})
-
-             
-   
-        .catch(error => {
-            console.error("Greška:", error);
-           
-        });
+        return response.json();
+    })
+    .catch(error => {
+        console.error("Greška:", error);
+        alert("Došlo je do greške prilikom slanja podataka.");
+    })
+    .finally(() => {
+        window.location.href = "/form2";
     });
+});
 </script>
-
-
 
 </body>
 </html>

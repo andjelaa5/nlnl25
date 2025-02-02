@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import threading
 import time
 import os
+import traceback  # Za detaljno logovanje grešaka
 
 app = Flask(__name__)
 CORS(app)  # Omogućava CORS za frontend
@@ -56,13 +57,16 @@ def submit_form():
         if not data:
             return jsonify({"error": "Nisu primljeni podaci."}), 400
 
+        print("📥 Primljeni podaci:", data)  # Log primljenih podataka
+
         # Automatsko generisanje ID
         last_entry = collection.find_one(sort=[("id", -1)])
         new_id = last_entry["id"] + 1 if last_entry and "id" in last_entry else 1
         data["id"] = new_id
 
         # Ubacivanje podataka u MongoDB
-        collection.insert_one(data)
+        insert_result = collection.insert_one(data)
+        print("✅ Podaci uspešno sačuvani. ID:", insert_result.inserted_id)
 
         return jsonify({
             "message": "Podaci su uspešno sačuvani!",
@@ -71,7 +75,8 @@ def submit_form():
 
     except Exception as e:
         print("❌ Server Error:", e)
-        return jsonify({"error": "Došlo je do greške na serveru."}), 500
+        traceback.print_exc()  # Prikazuje kompletnu grešku u konzoli
+        return jsonify({"error": f"Došlo je do greške na serveru: {str(e)}"}), 500
 
 # Ruta za prikazivanje svih podataka u JSON formatu
 @app.route('/get_data', methods=['GET'])
@@ -81,6 +86,7 @@ def get_data():
         return jsonify({"data": data}), 200
     except Exception as e:
         print("❌ Greška prilikom preuzimanja podataka:", e)
+        traceback.print_exc()
         return jsonify({"error": "Ne mogu da preuzmem podatke."}), 500
 
 if __name__ == '__main__':

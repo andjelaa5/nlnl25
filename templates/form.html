@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Matchmaking - Form</title>
     <link rel="stylesheet" href="static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -138,7 +139,7 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
     }
 
     // Prikazi alert pre slanja podataka
-     alert("Podaci su uspesno poslati!");
+     Swal.fire('Uspešno poslato!', 'odgovor je zabelezen', 'success');
 
     // Pripremi podatke za slanje
     const formData = {

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Matchmaking - Form</title>
     <link rel="stylesheet" href="static/style.css">
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -20,7 +20,6 @@
     <main class="main2">
         <div class="content">
            
-            
         </div>
     
         <form id="userForm">
@@ -158,37 +157,34 @@
             par: par
         };
 
-   fetch("https://nlnl3.onrender.com/submit", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        "Connection": "keep-alive"
-    },
-    body: JSON.stringify(formData)
-   })
-  .then(response => {
-    console.log("Response status:", response.status);
-    return response.json();
-   })
-   .then(data => {
-    console.log("Data received:", data);
-    Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
-   })
-   .catch(error => {
-    console.error("Greška:", error);
-    // Retry logic: Ponovo pokušaj
-    setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
-});
-            
+        function sendData() {
+            fetch("https://nlnl3.onrender.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Connection": "keep-alive"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                console.log("Response status:", response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Data received:", data);
+                Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
+            })
+            .catch(error => {
+                console.error("Greška:", error);
+                // Retry logic: Ponovo pokušaj
+                setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
+            });
+        }
 
-            // Prvi pokušaj slanja podataka
-            sendData();
-        });
+        // Prvi pokušaj slanja podataka
+        sendData();
+    });
     </script>
 
 </body>
 </html>
-
-
-
-

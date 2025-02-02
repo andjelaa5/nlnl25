@@ -54,19 +54,19 @@ def form3():
 def submit_form():
     try:
         data = request.get_json()
+        print("📥 Podaci primljeni:", data)  # Log podataka koji stižu
+
         if not data:
+            print("⚠️ Nisu primljeni podaci.")
             return jsonify({"error": "Nisu primljeni podaci."}), 400
 
-        print("📥 Primljeni podaci:", data)  # Log primljenih podataka
-
-        # Automatsko generisanje ID
-        last_entry = collection.find_one(sort=[("id", -1)])
+        last_entry = collection.find_one(sort=[("_id", -1)])
         new_id = last_entry["id"] + 1 if last_entry and "id" in last_entry else 1
         data["id"] = new_id
 
         # Ubacivanje podataka u MongoDB
         insert_result = collection.insert_one(data)
-        print("✅ Podaci uspešno sačuvani. ID:", insert_result.inserted_id)
+        print("✅ Podaci sačuvani sa ID:", new_id, "| Mongo ID:", insert_result.inserted_id)
 
         return jsonify({
             "message": "Podaci su uspešno sačuvani!",
@@ -75,8 +75,8 @@ def submit_form():
 
     except Exception as e:
         print("❌ Server Error:", e)
-        traceback.print_exc()  # Prikazuje kompletnu grešku u konzoli
         return jsonify({"error": f"Došlo je do greške na serveru: {str(e)}"}), 500
+
 
 # Ruta za prikazivanje svih podataka u JSON formatu
 @app.route('/get_data', methods=['GET'])

@@ -156,17 +156,20 @@
             zauzet: zauzet,
             par: par
         };
-        
-Swal.fire({
-    title: 'Molim vas ne zatvrajte stranicu, obrada je u toku',
-    text: 'ako je baza opterecena slanje moze potrajati 15s, sacekajte potvrdu o slanju',
-    icon: 'info',
-    allowOutsideClick: false,  // Sprečava zatvaranje
-    showConfirmButton: false,  // Ne prikazuje dugme za potvrdu
-    didOpen: () => {
-        Swal.showLoading();  // Prikazuje loading animaciju
-    }
-})
+
+        // Prikazivanje alert-a za čekanje
+        Swal.fire({
+            title: 'Molim vas ne zatvrajte stranicu, obrada je u toku',
+            text: 'Ako je baza opterećena, slanje može potrajati 15 sekundi. Sačekajte potvrdu o slanju.',
+            icon: 'info',
+            allowOutsideClick: false,  // Sprečava zatvaranje
+            showConfirmButton: false,  // Ne prikazuje dugme za potvrdu
+            didOpen: () => {
+                Swal.showLoading();  // Prikazuje loading animaciju
+            }
+        });
+
+        // Funkcija za slanje podataka
         function sendData() {
             fetch("https://nlnl3.onrender.com/submit", {
                 method: "POST",
@@ -182,7 +185,15 @@ Swal.fire({
             })
             .then(data => {
                 console.log("Data received:", data);
-               window.location.href = "/form2"; 
+                // Kada se podaci uspešno pošalju, preusmeri korisnika na form2
+                Swal.fire({
+                    title: '✅ Uspeh!',
+                    text: 'Podaci su uspešno poslati!',
+                    icon: 'success',
+                    confirmButtonText: 'U redu'
+                }).then(() => {
+                    window.location.href = "/form2";  // Preusmeravanje na form2
+                });
             })
             .catch(error => {
                 console.error("Greška:", error);
@@ -194,7 +205,8 @@ Swal.fire({
         // Prvi pokušaj slanja podataka
         sendData();
     });
-    </script>
+</script>
+
 
 </body>
 </html>

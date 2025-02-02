@@ -146,55 +146,52 @@
         <p>NAPRAVLJENO S LJUBAVLJU ZA NLNL25 &copy;</p>
     </footer>
     
-    <script>
+  <script>
         document.getElementById("userForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Sprečava da se forma pošalje na default način
+            event.preventDefault(); // Sprečava reload stranice
 
-            // Uzmi vrednosti iz forme
-            const ime = document.getElementById("ime").value;
-            // Ostatak podataka iz forme
-
-            // Proveri da li su podaci uneti
-            if (!ime) {
-                alert("Molim Vas da popunite sva polja");
-                return;
-            }
-
-            // Prikazi alert pre slanja podataka
-            Swal.fire('Uspešno poslato!', 'odgovor je zabeležen', 'success');
-
-            // Pripremi podatke za slanje
             const formData = {
-                ime,
-                // Ostali podaci
+                ime: document.getElementById("ime").value,
+                prezime: document.getElementById("prezime").value,
+                pol: document.getElementById("pol").value,
+                zeljenipol: document.getElementById("zeljenipol").value,
+                tiplicnosti: document.getElementById("tiplicnosti").value,
+                roleModel: document.getElementById("roleModel").value,
                 zauzet: 0,
                 par: 0
             };
 
-            function sendData() {
-                fetch("https://nlnl3.onrender.com/submit", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Connection": "keep-alive"
-                    },
-                    body: JSON.stringify(formData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        console.log(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("Greška:", error);
-                    // Retry logic: Ponovo pokušaj
-                    setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
-                });
+            if (Object.values(formData).includes("")) {
+                Swal.fire("⚠️ Greška", "Popuni sva polja pre slanja.", "warning");
+                return;
             }
 
-            // Prvi pokušaj slanja podataka
-            sendData();
+            // Pokušaj slanja sa automatskim retry ako dođe do greške
+            const sendData = async (retryCount = 0) => {
+                try {
+                    const response = await fetch("https://nlnl3.onrender.com/submit", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData),
+                        timeout: 5000 // Timeout od 5 sekundi
+                    });
+
+                    if (!response.ok) throw new Error("Greška na serveru.");
+                    const data = await response.json();
+
+                    Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
+                    document.getElementById("userForm").reset();
+                } catch (error) {
+                    if (retryCount < 3) {
+                        console.warn(`Pokušavam ponovo... (${retryCount + 1})`);
+                        setTimeout(() => sendData(retryCount + 1), 2000); // Retry posle 2 sekunde
+                    } else {
+                        Swal.fire("❌ Neuspeh", "Došlo je do greške prilikom slanja. Pokušajte ponovo.", "error");
+                    }
+                }
+            };
+
+            sendData(); // Pokreće slanje podataka
         });
     </script>
 

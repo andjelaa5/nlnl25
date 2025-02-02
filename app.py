@@ -14,29 +14,13 @@ CORS(app)  # Omogućava CORS
 
 client = MongoClient(
     "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
-    tlsAllowInvalidCertificates=True,
-    maxPoolSize=100,
-    minPoolSize=10
-    #serverSelectionTimeoutMS=5000,  
-    #socketTimeoutMS=10000,          
-    #maxPoolSize=20,                  
-   # retryWrites=True  
+    tlsAllowInvalidCertificates=True  # Onemogućava proveru SSL sertifikata
 )
-
-def ping_mongo():
-    while True:
-        try:
-           client.admin.command('ping')  # Ping za proveru konekcije
-           print("Konekcija je aktivna.")
-        except Exception as e:
-            print("Greška sa konekcijom:", e)
-        time.sleep(60)  # Ping svakih 5 minuta
-
-# Pokreće ping u pozadini
-threading.Thread(target=ping_mongo, daemon=True).start()
-
 db = client['test']
 collection = db['users']  # Ime kolekcije
+server_info = client.server_info()
+
+
 
 # Putanja do CSV fajla (proveri da li je fajl na pravoj lokaciji)
 

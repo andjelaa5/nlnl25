@@ -58,12 +58,11 @@ def form2():
 def submit_form():
     # Dobij podatke sa forme
     data = request.get_json()
+    
     # Dobija podatke iz JS-a
     if not data:
         return jsonify({"error": "No data received"}), 400
-    gas = list(collection.find())
-    # Ubacivanje u MongoDB
-    l = len(gas) + 1
+    l = collection.count_documents({}) + 1  # Brže brojanje
     ime = data['ime']
     prezime = data['prezime']
     pol = data['pol']

@@ -158,28 +158,28 @@
             par: par
         };
 
-            function sendData() {
-                fetch("https://nlnl3.onrender.com/submit", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Connection": "keep-alive"
-                    },
-                    body: JSON.stringify(formData)
-                })
-                .then(response => response.json())
-                .then(data => { 
-                   Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
-                    if (data.message) {
-                        console.log(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("Greška:", error);
-                    // Retry logic: Ponovo pokušaj
-                    setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
-                });
-            }
+   fetch("https://nlnl3.onrender.com/submit", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Connection": "keep-alive"
+    },
+    body: JSON.stringify(formData)
+   })
+  .then(response => {
+    console.log("Response status:", response.status);
+    return response.json();
+   })
+   .then(data => {
+    console.log("Data received:", data);
+    Swal.fire("✅ Uspeh!", "Podaci su uspešno sačuvani!", "success");
+   })
+   .catch(error => {
+    console.error("Greška:", error);
+    // Retry logic: Ponovo pokušaj
+    setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
+});
+            
 
             // Prvi pokušaj slanja podataka
             sendData();

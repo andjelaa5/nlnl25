@@ -168,7 +168,10 @@
         })
        
    
-            window.location.href = "/form2";
+           .then(response => response.json())
+           .then(() => {
+           window.location.href = "/form2"; // Preusmeravanje na form2
+})
 
              
    

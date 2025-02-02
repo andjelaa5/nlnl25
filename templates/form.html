@@ -192,6 +192,7 @@
                     icon: 'success',
                     confirmButtonText: 'U redu'
                 }).then(() => {
+                    localStorage.setItem("userNumber", data.broj);
                     window.location.href = "/form2";  // Preusmeravanje na form2
                 });
             })

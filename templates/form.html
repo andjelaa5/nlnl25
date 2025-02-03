@@ -117,9 +117,8 @@
  
     <script>
 document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Sprečava default slanje forme
+    event.preventDefault();
 
-    // Uzimanje vrednosti iz forme
     const formData = {
         ime: document.getElementById("ime").value,
         prezime: document.getElementById("prezime").value,
@@ -136,7 +135,6 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         par: 0
     };
 
-    // Provera da li su sva polja popunjena
     for (let key in formData) {
         if (formData[key] === "" && key !== "zauzet" && key !== "par") {
             alert("Molim Vas da popunite sva polja.");
@@ -144,7 +142,6 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         }
     }
 
-    // Alert za obradu
     Swal.fire({
         title: 'Molim vas ne zatvarajte stranicu, obrada je u toku',
         text: 'Ako je baza opterećena, slanje može potrajati do 1 minut. Molim Vas sačekajte potvrdu o slanju.',
@@ -156,17 +153,20 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         }
     });
 
-    // Funkcija za slanje podataka
     function sendData(retryCount = 0) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000); // Timeout od 15 sekundi
+
         fetch("https://nlnl3.onrender.com/submit", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Connection": "keep-alive"
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            signal: controller.signal
         })
         .then(response => {
+            clearTimeout(timeout);
             if (!response.ok) {
                 throw new Error("Server error: " + response.status);
             }
@@ -186,7 +186,7 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         .catch(error => {
             console.error("Greška:", error);
             if (retryCount < 3) {
-                setTimeout(() => sendData(retryCount + 1), 2000);  // Retry do 3 puta
+                setTimeout(() => sendData(retryCount + 1), 2000); // Retry logika
             } else {
                 Swal.fire({
                     title: '❌ Neuspeh!',
@@ -198,9 +198,9 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         });
     }
 
-    // Prvi pokušaj slanja podataka
     sendData();
 });
+
 </script>
 
 

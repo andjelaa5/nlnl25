@@ -115,97 +115,99 @@
 
     
  
-    <script>
-document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Sprečava da se forma pošalje na default način
+   <script>
+    document.getElementById("userForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Sprečava da se forma pošalje na default način
+    
+        // Uzmi vrednosti iz forme
+        const ime = document.getElementById("ime").value;
+        const prezime = document.getElementById("prezime").value;
+        const pol = document.getElementById("pol").value;
+        const zeljenipol = document.getElementById("zeljenipol").value;
+        const tiplicnosti = document.getElementById("tiplicnosti").value;
+        const roleModel = document.getElementById("roleModel").value;
+        const zivotnicilj = document.getElementById("zivotnicilj").value;
+        const zanr = document.getElementById("zanr").value;
+        const pice = document.getElementById("pice").value;
+        const hobi = document.getElementById("hobi").value;
+        const pesma = document.getElementById("pesma").value;
+        const zauzet = 0;
+        const par = 0;
 
-    const ime = document.getElementById("ime").value;
-    const prezime = document.getElementById("prezime").value;
-    const pol = document.getElementById("pol").value;
-    const zeljenipol = document.getElementById("zeljenipol").value;
-    const tiplicnosti = document.getElementById("tiplicnosti").value;
-    const roleModel = document.getElementById("roleModel").value;
-    const zivotnicilj = document.getElementById("zivotnicilj").value;
-    const zanr = document.getElementById("zanr").value;
-    const pice = document.getElementById("pice").value;
-    const hobi = document.getElementById("hobi").value;
-    const pesma = document.getElementById("pesma").value;
-    const zauzet = 0;
-    const par = 0;
-
-    if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
-        alert("Molim Vas da popunite sva polja");
-        return;
-    }
-
-    const formData = {
-        ime, prezime, pol, zeljenipol, tiplicnosti,
-        roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par
-    };
-
-    Swal.fire({
-        title: 'Molim vas ne zatvarajte stranicu, obrada je u toku',
-        text: 'Ako je baza opterećena, slanje može potrajati do 1 minut. Molim Vas sačekajte potvrdu o slanju.',
-        icon: 'info',
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-            Swal.showLoading();
+        // Proveri da li su podaci uneti
+        if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
+            alert("Molim Vas da popunite sva polja");
+            return;
         }
-    });
+    
+        // Pripremi podatke za slanje
+        const formData = {
+            ime: ime,
+            prezime: prezime,
+            pol: pol,
+            zeljenipol: zeljenipol,
+            tiplicnosti: tiplicnosti,
+            roleModel: roleModel,
+            zivotnicilj: zivotnicilj,
+            zanr: zanr,
+            pice: pice,
+            hobi: hobi,
+            pesma: pesma,
+            zauzet: zauzet,
+            par: par
+        };
 
-    function sendData() {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => {
-            console.log("⏱️ [CLIENT] Zahtev je istekao nakon 20 sekundi.");
-            controller.abort();
-        }, 20000); // Timeout od 20 sekundi
-
-        fetch("https://nlnl25-3.onrender.com/submit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify(formData),
-            signal: controller.signal
-        })
-        .then(response => {
-            clearTimeout(timeoutId);
-            console.log("📦 [CLIENT] Odgovor servera:", response.status);
-            return response.json();
-        })
-        .then(data => {
-            console.log("✅ [CLIENT] Podaci primljeni:", data);
-            Swal.fire({
-                title: '✅ Uspeh!',
-                text: 'Podaci su uspešno poslati!',
-                icon: 'success',
-                confirmButtonText: 'U redu'
-            }).then(() => {
-                localStorage.setItem("userNumber", data.broj);
-                window.location.href = "/form2";
-            });
-        })
-        .catch(error => {
-            console.error("❌ [CLIENT] Greška:", error);
-            Swal.fire({
-                title: '⚠️ Greška!',
-                text: 'Došlo je do greške prilikom slanja podataka. Pokušavamo ponovo...',
-                icon: 'error',
-                confirmButtonText: 'Pokušaj ponovo'
-            }).then(() => {
-                sendData();  // Retry nakon greške
-            });
+        // Prikazivanje alert-a za čekanje
+        Swal.fire({
+            title: 'Molim vas ne zatvrajte stranicu, obrada je u toku',
+            text: 'Ako je baza opterećena, slanje može potrajati do 1 minut. Molim Vas sačekajte potvrdu o slanju.',
+            icon: 'info',
+            allowOutsideClick: false,  // Sprečava zatvaranje
+            showConfirmButton: false,  // Ne prikazuje dugme za potvrdu
+            didOpen: () => {
+                Swal.showLoading();  // Prikazuje loading animaciju
+            }
         });
-    }
 
-    sendData();
-});
+        // Funkcija za slanje podataka
+        function sendData() {
+            fetch("https://nlnl25-3.onrender.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Connection": "keep-alive"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                console.log("Response status:", response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Data received:", data);
+                // Kada se podaci uspešno pošalju, preusmeri korisnika na form2
+                Swal.fire({
+                    title: '✅ Uspeh!',
+                    text: 'Podaci su uspešno poslati!',
+                    icon: 'success',
+                    confirmButtonText: 'U redu'
+                }).then(() => {
+                    localStorage.setItem("userNumber", data.broj);
+                    window.location.href = "/form2";  // Preusmeravanje na form2
+                });
+            })
+            .catch(error => {
+                console.error("Greška:", error);
+                // Retry logic: Ponovo pokušaj
+                setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
+            });
+        }
 
-
-
+        // Prvi pokušaj slanja podataka
+        sendData();
+    });
 </script>
+
 
 
 </body>

@@ -56,26 +56,35 @@ def form2():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
-    print("📥 [SERVER] Primljen zahtev za /submit")
+    start_request = time.time()
+    print(f"📥 [SERVER] Primljen zahtev za /submit u {start_request}")
+
     data = request.get_json()
 
     if not data:
+        print("⚠️ [SERVER] Nisu primljeni podaci.")
         return jsonify({"error": "No data received"}), 400
 
     if collection is None:
+        print("❌ [SERVER] Nema konekcije sa bazom.")
         return jsonify({"error": "Database connection failed"}), 500
 
     try:
-        print("🔢 [SERVER] Brojanje dokumenata...")
+        # Log pre brojanja dokumenata
         start_count = time.time()
+        print(f"🔢 [SERVER] Brojanje dokumenata započeto u {start_count}")
         l = collection.estimated_document_count() + 1
-        print(f"✅ [SERVER] Brojanje završeno za {round(time.time() - start_count, 2)}s")
+        print(f"✅ [SERVER] Brojanje završeno u {time.time()}, trajalo: {round(time.time() - start_count, 2)}s")
 
-        data["id"] = l
-        print("💾 [SERVER] Pokušaj upisa podataka u bazu...")
+        # Log pre insertovanja
         start_insert = time.time()
+        print(f"💾 [SERVER] Insert podataka započet u {start_insert}")
+        data["id"] = l
         collection.insert_one(data)
-        print(f"✅ [SERVER] Podaci uspešno upisani za {round(time.time() - start_insert, 2)}s")
+        print(f"✅ [SERVER] Insert završen u {time.time()}, trajalo: {round(time.time() - start_insert, 2)}s")
+
+        end_request = time.time()
+        print(f"🎯 [SERVER] Završetak obrade zahteva u {end_request}, ukupno trajanje: {round(end_request - start_request, 2)}s")
 
         return jsonify({
             "message": "Podaci su uspešno sačuvani!",

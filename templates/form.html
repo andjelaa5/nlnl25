@@ -117,31 +117,47 @@
  
     <script>
 document.getElementById("userForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Sprečava da se forma pošalje na default način
 
-    const formData = {
-        ime: document.getElementById("ime").value,
-        prezime: document.getElementById("prezime").value,
-        pol: document.getElementById("pol").value,
-        zeljenipol: document.getElementById("zeljenipol").value,
-        tiplicnosti: document.getElementById("tiplicnosti").value,
-        roleModel: document.getElementById("roleModel").value,
-        zivotnicilj: document.getElementById("zivotnicilj").value,
-        zanr: document.getElementById("zanr").value,
-        pice: document.getElementById("pice").value,
-        hobi: document.getElementById("hobi").value,
-        pesma: document.getElementById("pesma").value,
-        zauzet: 0,
-        par: 0
-    };
+    // Uzmi vrednosti iz forme
+    const ime = document.getElementById("ime").value;
+    const prezime = document.getElementById("prezime").value;
+    const pol = document.getElementById("pol").value;
+    const zeljenipol = document.getElementById("zeljenipol").value;
+    const tiplicnosti = document.getElementById("tiplicnosti").value;
+    const roleModel = document.getElementById("roleModel").value;
+    const zivotnicilj = document.getElementById("zivotnicilj").value;
+    const zanr = document.getElementById("zanr").value;
+    const pice = document.getElementById("pice").value;
+    const hobi = document.getElementById("hobi").value;
+    const pesma = document.getElementById("pesma").value;
+    const zauzet = 0;
+    const par = 0;
 
-    for (let key in formData) {
-        if (formData[key] === "" && key !== "zauzet" && key !== "par") {
-            alert("Molim Vas da popunite sva polja.");
-            return;
-        }
+    // Proveri da li su podaci uneti
+    if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
+        alert("Molim Vas da popunite sva polja");
+        return;
     }
 
+    // Pripremi podatke za slanje
+    const formData = {
+        ime: ime,
+        prezime: prezime,
+        pol: pol,
+        zeljenipol: zeljenipol,
+        tiplicnosti: tiplicnosti,
+        roleModel: roleModel,
+        zivotnicilj: zivotnicilj,
+        zanr: zanr,
+        pice: pice,
+        hobi: hobi,
+        pesma: pesma,
+        zauzet: zauzet,
+        par: par
+    };
+
+    // Prikazivanje alert-a za čekanje
     Swal.fire({
         title: 'Molim vas ne zatvarajte stranicu, obrada je u toku',
         text: 'Ako je baza opterećena, slanje može potrajati do 1 minut. Molim Vas sačekajte potvrdu o slanju.',
@@ -153,9 +169,15 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         }
     });
 
+    // Funkcija za slanje podataka sa logovima i timeout-om
     function sendData(retryCount = 0) {
+        console.log("📡 Slanje podataka pokušaj:", retryCount + 1);
+        
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 15000); // Timeout od 15 sekundi
+        const timeout = setTimeout(() => {
+            controller.abort();
+            console.error("⏱️ Zahtev je istekao nakon 15 sekundi.");
+        }, 15000); // Timeout od 15 sekundi
 
         fetch("https://nlnl3.onrender.com/submit", {
             method: "POST",
@@ -167,12 +189,11 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         })
         .then(response => {
             clearTimeout(timeout);
-            if (!response.ok) {
-                throw new Error("Server error: " + response.status);
-            }
+            console.log("✅ Odgovor servera:", response.status);
             return response.json();
         })
         .then(data => {
+            console.log("🎯 Podaci uspešno primljeni:", data);
             Swal.fire({
                 title: '✅ Uspeh!',
                 text: 'Podaci su uspešno poslati!',
@@ -180,13 +201,16 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
                 confirmButtonText: 'U redu'
             }).then(() => {
                 localStorage.setItem("userNumber", data.broj);
-                window.location.href = "/form2";
+                window.location.href = "/form2";  // Preusmeravanje na form2
             });
         })
         .catch(error => {
-            console.error("Greška:", error);
+            clearTimeout(timeout);
+            console.error("❌ Greška:", error);
+
             if (retryCount < 3) {
-                setTimeout(() => sendData(retryCount + 1), 2000); // Retry logika
+                console.log("🔄 Pokušaj ponovnog slanja nakon 2 sekunde...");
+                setTimeout(() => sendData(retryCount + 1), 2000);  // Retry nakon 2 sekunde
             } else {
                 Swal.fire({
                     title: '❌ Neuspeh!',
@@ -198,8 +222,10 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         });
     }
 
+    // Prvi pokušaj slanja podataka
     sendData();
 });
+
 
 </script>
 

@@ -116,96 +116,91 @@
     
  
     <script>
-    document.getElementById("userForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Sprečava da se forma pošalje na default način
-    
-        // Uzmi vrednosti iz forme
-        const ime = document.getElementById("ime").value;
-        const prezime = document.getElementById("prezime").value;
-        const pol = document.getElementById("pol").value;
-        const zeljenipol = document.getElementById("zeljenipol").value;
-        const tiplicnosti = document.getElementById("tiplicnosti").value;
-        const roleModel = document.getElementById("roleModel").value;
-        const zivotnicilj = document.getElementById("zivotnicilj").value;
-        const zanr = document.getElementById("zanr").value;
-        const pice = document.getElementById("pice").value;
-        const hobi = document.getElementById("hobi").value;
-        const pesma = document.getElementById("pesma").value;
-        const zauzet = 0;
-        const par = 0;
+document.getElementById("userForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Sprečava default slanje forme
 
-        // Proveri da li su podaci uneti
-        if (!ime || !prezime || !pol || !zeljenipol || !tiplicnosti || !roleModel || !zivotnicilj || !zanr || !pice || !hobi || !pesma) {
-            alert("Molim Vas da popunite sva polja");
+    // Uzimanje vrednosti iz forme
+    const formData = {
+        ime: document.getElementById("ime").value,
+        prezime: document.getElementById("prezime").value,
+        pol: document.getElementById("pol").value,
+        zeljenipol: document.getElementById("zeljenipol").value,
+        tiplicnosti: document.getElementById("tiplicnosti").value,
+        roleModel: document.getElementById("roleModel").value,
+        zivotnicilj: document.getElementById("zivotnicilj").value,
+        zanr: document.getElementById("zanr").value,
+        pice: document.getElementById("pice").value,
+        hobi: document.getElementById("hobi").value,
+        pesma: document.getElementById("pesma").value,
+        zauzet: 0,
+        par: 0
+    };
+
+    // Provera da li su sva polja popunjena
+    for (let key in formData) {
+        if (formData[key] === "" && key !== "zauzet" && key !== "par") {
+            alert("Molim Vas da popunite sva polja.");
             return;
         }
-    
-        // Pripremi podatke za slanje
-        const formData = {
-            ime: ime,
-            prezime: prezime,
-            pol: pol,
-            zeljenipol: zeljenipol,
-            tiplicnosti: tiplicnosti,
-            roleModel: roleModel,
-            zivotnicilj: zivotnicilj,
-            zanr: zanr,
-            pice: pice,
-            hobi: hobi,
-            pesma: pesma,
-            zauzet: zauzet,
-            par: par
-        };
+    }
 
-        // Prikazivanje alert-a za čekanje
-        Swal.fire({
-            title: 'Molim vas ne zatvrajte stranicu, obrada je u toku',
-            text: 'Ako je baza opterećena, slanje može potrajati do 1 minut. Molim Vas sačekajte potvrdu o slanju.',
-            icon: 'info',
-            allowOutsideClick: false,  // Sprečava zatvaranje
-            showConfirmButton: false,  // Ne prikazuje dugme za potvrdu
-            didOpen: () => {
-                Swal.showLoading();  // Prikazuje loading animaciju
+    // Alert za obradu
+    Swal.fire({
+        title: 'Molim vas ne zatvarajte stranicu, obrada je u toku',
+        text: 'Ako je baza opterećena, slanje može potrajati do 1 minut. Molim Vas sačekajte potvrdu o slanju.',
+        icon: 'info',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // Funkcija za slanje podataka
+    function sendData(retryCount = 0) {
+        fetch("https://nlnl3.onrender.com/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Connection": "keep-alive"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Server error: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            Swal.fire({
+                title: '✅ Uspeh!',
+                text: 'Podaci su uspešno poslati!',
+                icon: 'success',
+                confirmButtonText: 'U redu'
+            }).then(() => {
+                localStorage.setItem("userNumber", data.broj);
+                window.location.href = "/form2";
+            });
+        })
+        .catch(error => {
+            console.error("Greška:", error);
+            if (retryCount < 3) {
+                setTimeout(() => sendData(retryCount + 1), 2000);  // Retry do 3 puta
+            } else {
+                Swal.fire({
+                    title: '❌ Neuspeh!',
+                    text: 'Došlo je do greške prilikom slanja podataka. Pokušajte ponovo kasnije.',
+                    icon: 'error',
+                    confirmButtonText: 'U redu'
+                });
             }
         });
+    }
 
-        // Funkcija za slanje podataka
-        function sendData() {
-            fetch("https://nlnl3.onrender.com/submit", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Connection": "keep-alive"
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                console.log("Response status:", response.status);
-                return response.json();
-            })
-            .then(data => {
-                console.log("Data received:", data);
-                // Kada se podaci uspešno pošalju, preusmeri korisnika na form2
-                Swal.fire({
-                    title: '✅ Uspeh!',
-                    text: 'Podaci su uspešno poslati!',
-                    icon: 'success',
-                    confirmButtonText: 'U redu'
-                }).then(() => {
-                    localStorage.setItem("userNumber", data.broj);
-                    window.location.href = "/form2";  // Preusmeravanje na form2
-                });
-            })
-            .catch(error => {
-                console.error("Greška:", error);
-                // Retry logic: Ponovo pokušaj
-                setTimeout(sendData, 2000);  // Pokušaj ponovo nakon 2 sekunde
-            });
-        }
-
-        // Prvi pokušaj slanja podataka
-        sendData();
-    });
+    // Prvi pokušaj slanja podataka
+    sendData();
+});
 </script>
 
 

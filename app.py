@@ -31,17 +31,29 @@ def form2():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
+    # Dobij podatke sa forme
     data = request.get_json()
+    
+    # Dobija podatke iz JS-a
     if not data:
         return jsonify({"error": "No data received"}), 400
-
-    db = get_db()
-    collection = db['users']
-    l = collection.estimated_document_count() + 1
-
+    l = collection.count_documents({}) + 1  # Brže brojanje
+    ime = data['ime']
+    prezime = data['prezime']
+    pol = data['pol']
+    zeljenipol = data['zeljenipol']
+    tiplicnosti = data['tiplicnosti']
+    roleModel = data['roleModel']
+    zivotnicilj = data['zivotnicilj']
+    zanr = data['zanr']
+    pice = data['pice']
+    hobi = data['hobi']
+    pesma = data['pesma']
+    zauzet = data['zauzet']
+    par = data['zauzet']
+    user_data = [l, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
     data["id"] = l
     collection.insert_one(data)
-
     return jsonify({
         "message": "Podaci su uspešno sačuvani!",
         "broj": l

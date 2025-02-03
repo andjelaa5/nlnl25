@@ -4,17 +4,20 @@ from pymongo import MongoClient
 from bson import json_util
 import os
 import json
+import time  # Za merenje vremena
 
 app = Flask(__name__)
-CORS(app)  # Omogućava CORS
+CORS(app)
 
-# Funkcija za konekciju sa bazom po potrebi
 def get_db():
+    print("📡 Pokušaj konekcije sa MongoDB...")  # Log pre konekcije
+    start_time = time.time()
     client = MongoClient(
         "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
         tlsAllowInvalidCertificates=True,
-        connect=False  # Onemogućava trajnu konekciju
+        connect=False
     )
+    print(f"✅ Konekcija sa MongoDB uspostavljena za {round(time.time() - start_time, 2)}s")  # Log posle konekcije
     return client['test']
 
 @app.route('/')
@@ -31,29 +34,23 @@ def form2():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
-    # Dobij podatke sa forme
+    print("📥 Primljen zahtev za /submit")  # Log za početak zahteva
     data = request.get_json()
-    
-    # Dobija podatke iz JS-a
     if not data:
         return jsonify({"error": "No data received"}), 400
-    l = collection.count_documents({}) + 1  # Brže brojanje
-    ime = data['ime']
-    prezime = data['prezime']
-    pol = data['pol']
-    zeljenipol = data['zeljenipol']
-    tiplicnosti = data['tiplicnosti']
-    roleModel = data['roleModel']
-    zivotnicilj = data['zivotnicilj']
-    zanr = data['zanr']
-    pice = data['pice']
-    hobi = data['hobi']
-    pesma = data['pesma']
-    zauzet = data['zauzet']
-    par = data['zauzet']
-    user_data = [l, ime, prezime, pol, zeljenipol, tiplicnosti, roleModel, zivotnicilj, zanr, pice, hobi, pesma, zauzet, par]
+
+    db = get_db()
+    collection = db['users']
+    
+    print("🔢 Brojanje dokumenata...")
+    l = collection.estimated_document_count() + 1  # Brže od count_documents
+    
     data["id"] = l
+    print("💾 Pokušaj upisa podataka u bazu...")  # Log pre insert-a
+    start_insert = time.time()
     collection.insert_one(data)
+    print(f"✅ Podaci uspešno upisani za {round(time.time() - start_insert, 2)}s")  # Log posle insert-a
+
     return jsonify({
         "message": "Podaci su uspešno sačuvani!",
         "broj": l

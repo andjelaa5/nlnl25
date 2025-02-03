@@ -1,24 +1,46 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 from bson import json_util
 import os
 import json
-import time  # Za merenje vremena
+import time
+import threading
 
 app = Flask(__name__)
 CORS(app)
 
-def get_db():
-    print("📡 Pokušaj konekcije sa MongoDB...")  # Log pre konekcije
-    start_time = time.time()
+# 🔗 Održavanje stalne konekcije sa bazom
+try:
+    print("📡 [SERVER] Povezivanje sa MongoDB...")
     client = MongoClient(
         "mongodb+srv://user1:awd123faw13@cluster0.m9u9j.mongodb.net/test?retryWrites=true&w=majority",
         tlsAllowInvalidCertificates=True,
-        connect=False
+        serverSelectionTimeoutMS=5000,   # Timeout za povezivanje
+        connectTimeoutMS=5000,           # Timeout za konekciju
+        socketTimeoutMS=5000             # Timeout za mrežni soket
     )
-    print(f"✅ Konekcija sa MongoDB uspostavljena za {round(time.time() - start_time, 2)}s")  # Log posle konekcije
-    return client['test']
+    db = client['test']
+    collection = db['users']
+    client.admin.command('ping')
+    print("✅ [SERVER] Konekcija sa MongoDB uspostavljena.")
+except errors.ServerSelectionTimeoutError as err:
+    print(f"❌ [SERVER] Greška prilikom povezivanja sa bazom: {err}")
+    db = None
+    collection = None
+
+# 🚀 Periodični ping da se veza ne "uspava"
+def keep_connection_alive():
+    while True:
+        try:
+            client.admin.command('ping')
+            print("🔄 [KEEP-ALIVE] Ping uspešan.")
+        except errors.PyMongoError as e:
+            print(f"❌ [KEEP-ALIVE] Greška pri pingovanju: {e}")
+        time.sleep(300)  # Ping na svakih 5 minuta
+
+# Pokretanje pingovanja u posebnom thread-u
+threading.Thread(target=keep_connection_alive, daemon=True).start()
 
 @app.route('/')
 def index():
@@ -34,27 +56,34 @@ def form2():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
-    print("📥 Primljen zahtev za /submit")  # Log za početak zahteva
+    print("📥 [SERVER] Primljen zahtev za /submit")
     data = request.get_json()
+
     if not data:
         return jsonify({"error": "No data received"}), 400
 
-    db = get_db()
-    collection = db['users']
-    
-    print("🔢 Brojanje dokumenata...")
-    l = collection.estimated_document_count() + 1  # Brže od count_documents
-    
-    data["id"] = l
-    print("💾 Pokušaj upisa podataka u bazu...")  # Log pre insert-a
-    start_insert = time.time()
-    collection.insert_one(data)
-    print(f"✅ Podaci uspešno upisani za {round(time.time() - start_insert, 2)}s")  # Log posle insert-a
+    if collection is None:
+        return jsonify({"error": "Database connection failed"}), 500
 
-    return jsonify({
-        "message": "Podaci su uspešno sačuvani!",
-        "broj": l
-    })
+    try:
+        print("🔢 [SERVER] Brojanje dokumenata...")
+        start_count = time.time()
+        l = collection.estimated_document_count() + 1
+        print(f"✅ [SERVER] Brojanje završeno za {round(time.time() - start_count, 2)}s")
+
+        data["id"] = l
+        print("💾 [SERVER] Pokušaj upisa podataka u bazu...")
+        start_insert = time.time()
+        collection.insert_one(data)
+        print(f"✅ [SERVER] Podaci uspešno upisani za {round(time.time() - start_insert, 2)}s")
+
+        return jsonify({
+            "message": "Podaci su uspešno sačuvani!",
+            "broj": l
+        })
+    except errors.PyMongoError as e:
+        print(f"❌ [SERVER] Greška prilikom upisa u bazu: {e}")
+        return jsonify({"error": "Database write error"}), 500
 
 @app.route('/form3')
 def form3():
@@ -62,8 +91,9 @@ def form3():
 
 @app.route('/get_form3_data')
 def get_form3_data():
-    db = get_db()
-    collection = db['users']
+    if collection is None:
+        return jsonify({"error": "Database connection failed"}), 500
+
     data_list = list(collection.find())
     return jsonify({"lista": json.loads(json_util.dumps(data_list))})
 

@@ -21,7 +21,7 @@ client = MongoClient(
 db = client['test']
 collection = db['users']  # Ime kolekcije
 
-#result = collection.delete_many({}) 
+result = collection.delete_many({}) 
 
 
 # Ruta za testiranje pinga ka MongoDB

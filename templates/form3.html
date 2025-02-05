@@ -64,12 +64,12 @@ window.onload = function() {
                 for (let k = 7; k >= 0; k--) {
                     for (let i = 0; i < item.length; i++) {
                         if (parseInt(item[i][12]) == 1) continue;
-                        for (let j = i + 1; j < item.length; j++) {
+                        for (let j = 0; j < item.length; j++) {
                             if (parseInt(item[j][12]) == 1) continue;
-                            br = 0;
+                        
                             if (parseInt(item[i][12]) == 0 && parseInt(item[j][12]) == 0 && 
                                 JSON.stringify(item[i][7]) == JSON.stringify(item[j][13]) && 
-                                JSON.stringify(item[i][13]) == JSON.stringify(item[j][7])) {
+                                JSON.stringify(item[i][13]) == JSON.stringify(item[j][7]) && parseInt(i)!=parseInt(j)) {
                                 if (JSON.stringify([i][1]) == JSON.stringify([j][1])) br++;
                                 if (JSON.stringify([i][6]) == JSON.stringify([j][6])) br++;
                                 if (JSON.stringify([i][14]) == JSON.stringify([j][14])) br++;
@@ -84,7 +84,13 @@ window.onload = function() {
                                     break;
                                 }
                             }
+                            br=0;
                         }
+                        if(parseInt(k)>1){
+                            k--;
+                            br=0;
+                        }
+                        else return;
                     }   
                 }
 
